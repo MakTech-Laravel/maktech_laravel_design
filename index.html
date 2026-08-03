@@ -18,11 +18,24 @@
   @keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
   @keyframes toastIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
   @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes fall{0%{transform:translateY(-5vh);opacity:0;}8%{opacity:1;}92%{opacity:1;}100%{transform:translateY(105vh);opacity:0;}}
   ::selection{background:#FF6533;color:#fff;}
 </style>
 </helmet>
 
 <div style="font-family:'Manrope',sans-serif;color:#15120F;background:#FBF9F6;min-height:100vh;position:relative;overflow-x:hidden;">
+
+<div style="position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background-image:linear-gradient(#E8E2DB 1px,transparent 1px),linear-gradient(90deg,#E8E2DB 1px,transparent 1px);background-size:56px 56px;opacity:0.35;-webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,0.9),rgba(0,0,0,0.15) 70%,transparent 100%);mask-image:linear-gradient(to bottom,rgba(0,0,0,0.9),rgba(0,0,0,0.15) 70%,transparent 100%);">
+  <span style="position:absolute;left:8%;top:0;width:6px;height:6px;border-radius:100px;background:#FF6533;opacity:0.5;animation:fall 14s linear infinite;animation-delay:0s;"></span>
+  <span style="position:absolute;left:18%;top:0;width:4px;height:4px;border-radius:100px;background:#FF6533;opacity:0.4;animation:fall 10s linear infinite;animation-delay:2s;"></span>
+  <span style="position:absolute;left:30%;top:0;width:5px;height:5px;border-radius:100px;background:#15120F;opacity:0.18;animation:fall 16s linear infinite;animation-delay:4s;"></span>
+  <span style="position:absolute;left:42%;top:0;width:7px;height:7px;border-radius:100px;background:#FF6533;opacity:0.35;animation:fall 12s linear infinite;animation-delay:1s;"></span>
+  <span style="position:absolute;left:55%;top:0;width:4px;height:4px;border-radius:100px;background:#15120F;opacity:0.2;animation:fall 18s linear infinite;animation-delay:6s;"></span>
+  <span style="position:absolute;left:66%;top:0;width:6px;height:6px;border-radius:100px;background:#FF6533;opacity:0.45;animation:fall 11s linear infinite;animation-delay:3s;"></span>
+  <span style="position:absolute;left:76%;top:0;width:5px;height:5px;border-radius:100px;background:#15120F;opacity:0.16;animation:fall 15s linear infinite;animation-delay:5s;"></span>
+  <span style="position:absolute;left:88%;top:0;width:6px;height:6px;border-radius:100px;background:#FF6533;opacity:0.4;animation:fall 13s linear infinite;animation-delay:7s;"></span>
+  <span style="position:absolute;left:95%;top:0;width:4px;height:4px;border-radius:100px;background:#15120F;opacity:0.18;animation:fall 17s linear infinite;animation-delay:2.5s;"></span>
+</div>
 
 <sc-if value="{{ showHeader }}" hint-placeholder-val="{{ true }}">
 <header style="position:sticky;top:0;z-index:40;background:rgba(251,249,246,0.88);backdrop-filter:blur(10px);border-bottom:1px solid #E8E2DB;">
@@ -41,7 +54,7 @@
 </sc-if>
 
 <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
-<main style="max-width:1320px;margin:0 auto;padding:clamp(48px,8vw,88px) clamp(20px,4vw,40px) clamp(40px,6vw,64px);">
+<main style="position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:clamp(48px,8vw,88px) clamp(20px,4vw,40px) clamp(40px,6vw,64px);">
   <div style="max-width:720px;margin:0 0 12px;animation:fadeUp .6s ease both;">
     <div style="font-size:13px;font-weight:700;color:#FF6533;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">Selected work</div>
     <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(34px,5vw,58px);line-height:1.05;letter-spacing:-0.02em;margin:0 0 18px;">Projects we've shipped.</h1>
@@ -94,8 +107,17 @@
 </main>
 </sc-if>
 
+<sc-if value="{{ showHeader }}" hint-placeholder-val="{{ true }}">
+<footer style="position:relative;z-index:1;border-top:1px solid #E8E2DB;padding:22px clamp(20px,4vw,40px);">
+  <div style="max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <span style="font-size:13px;color:#A79D93;">&copy; 2026 {{ settings.siteName }}</span>
+    <a href="{{ settings.externalUrl }}" target="_blank" style="font-size:13px;color:#A79D93;text-decoration:none;" style-hover="color:#FF6533;">{{ settings.externalLabel }} &#8599;</a>
+  </div>
+</footer>
+</sc-if>
+
 <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
-<main style="max-width:1080px;margin:0 auto;padding:clamp(32px,5vw,56px) clamp(20px,4vw,40px) clamp(56px,8vw,100px);">
+<main style="position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:clamp(32px,5vw,56px) clamp(20px,4vw,40px) clamp(56px,8vw,100px);">
   <span style="font-size:14px;font-weight:700;color:#6B645C;cursor:pointer;display:inline-block;margin-bottom:28px;" style-hover="color:#FF6533;" onClick="{{ goToHome }}">&#8592; All projects</span>
 
   <div style="position:relative;height:clamp(280px,46vw,480px);border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#221C18 0%,#17130F 55%,#0E0C0A 100%);margin-bottom:36px;animation:fadeUp .5s ease both;cursor:pointer;box-shadow:0 40px 80px -30px rgba(21,18,15,0.4);" onClick="{{ openHeroLightbox }}">
@@ -112,14 +134,6 @@
   </sc-if>
 
   <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:44px;">
-    <div style="background:#fff;border:1px solid #E8E2DB;border-radius:100px;padding:10px 20px;display:flex;align-items:center;gap:8px;">
-      <span style="font-size:11.5px;font-weight:700;color:#A79D93;text-transform:uppercase;letter-spacing:0.05em;">Client</span>
-      <span style="font-size:14px;font-weight:700;">{{ currentProject.client }}</span>
-    </div>
-    <div style="background:#fff;border:1px solid #E8E2DB;border-radius:100px;padding:10px 20px;display:flex;align-items:center;gap:8px;">
-      <span style="font-size:11.5px;font-weight:700;color:#A79D93;text-transform:uppercase;letter-spacing:0.05em;">Date</span>
-      <span style="font-size:14px;font-weight:700;">{{ currentProject.date }}</span>
-    </div>
     <sc-for list="{{ currentProject.technologies }}" as="tech" hint-placeholder-count="3">
       <div style="background:#F3EEE7;border-radius:100px;padding:10px 18px;font-size:13.5px;font-weight:600;color:#4A453E;">{{ tech }}</div>
     </sc-for>
@@ -167,43 +181,6 @@
           </div>
         </sc-for>
       </div>
-    </div>
-  </sc-if>
-
-  <sc-if value="{{ hasVideos }}" hint-placeholder-val="{{ false }}">
-    <div style="margin-bottom:56px;">
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:23px;margin:0 0 18px;">Videos</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
-        <sc-for list="{{ detailVideosView }}" as="v" hint-placeholder-count="2">
-          <a href="{{ v.url }}" target="_blank" style="display:flex;align-items:center;gap:14px;padding:18px 20px;background:#fff;border:1px solid #E8E2DB;border-radius:12px;text-decoration:none;color:#15120F;transition:border-color .2s ease, box-shadow .2s ease;" style-hover="border-color:#FF6533;box-shadow:0 12px 28px -16px rgba(21,18,15,0.25);">
-            <span style="width:38px;height:38px;border-radius:100px;background:#15120F;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex:0 0 auto;">&#9654;</span>
-            <span style="font-size:14.5px;font-weight:700;">{{ v.title }}</span>
-          </a>
-        </sc-for>
-      </div>
-    </div>
-  </sc-if>
-
-  <sc-if value="{{ hasFiles }}" hint-placeholder-val="{{ false }}">
-    <div style="margin-bottom:56px;">
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:23px;margin:0 0 18px;">Files</h2>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <sc-for list="{{ detailFilesView }}" as="fl" hint-placeholder-count="2">
-          <a href="{{ fl.url }}" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#fff;border:1px solid #E8E2DB;border-radius:10px;text-decoration:none;color:#15120F;font-size:14.5px;font-weight:700;transition:border-color .2s ease;" style-hover="border-color:#FF6533;">
-            <span>{{ fl.name }}</span>
-            <span style="color:#A79D93;font-size:12px;font-weight:600;">Download &#8595;</span>
-          </a>
-        </sc-for>
-      </div>
-    </div>
-  </sc-if>
-
-  <sc-if value="{{ hasTestimonial }}" hint-placeholder-val="{{ false }}">
-    <div style="background:#15120F;border-radius:16px;padding:44px;margin-bottom:56px;position:relative;overflow:hidden;">
-      <div style="font-family:'Space Grotesk',sans-serif;font-size:64px;color:#FF6533;line-height:1;margin-bottom:8px;opacity:0.85;">"</div>
-      <p style="font-family:'Space Grotesk',sans-serif;font-size:23px;line-height:1.5;color:#fff;margin:0 0 22px;max-width:640px;">{{ currentProject.testimonialQuote }}</p>
-      <div style="font-size:14.5px;font-weight:700;color:#fff;">{{ currentProject.testimonialAuthor }}</div>
-      <div style="font-size:13px;color:#A79D93;">{{ currentProject.testimonialRole }}</div>
     </div>
   </sc-if>
 
