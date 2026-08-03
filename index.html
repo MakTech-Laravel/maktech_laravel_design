@@ -15,213 +15,49 @@
   *{box-sizing:border-box;}
   body{margin:0;}
   @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
   @keyframes toastIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes spin{to{transform:rotate(360deg);}}
   ::selection{background:#FF6533;color:#fff;}
 </style>
 </helmet>
 
 <div style="font-family:'Manrope',sans-serif;color:#15120F;background:#FBF9F6;min-height:100vh;position:relative;overflow-x:hidden;">
 
-<sc-if value="{{ showPublicChrome }}" hint-placeholder-val="{{ true }}">
-<header style="position:sticky;top:0;z-index:40;background:rgba(251,249,246,0.9);backdrop-filter:blur(10px);border-bottom:1px solid #E8E2DB;">
-  <div style="max-width:1240px;margin:0 auto;padding:16px clamp(20px,4vw,40px);display:flex;align-items:center;justify-content:space-between;gap:24px;">
-    <div style="display:flex;align-items:center;gap:10px;cursor:pointer;" onClick="{{ goToLanding }}">
+<sc-if value="{{ showHeader }}" hint-placeholder-val="{{ true }}">
+<header style="position:sticky;top:0;z-index:40;background:rgba(251,249,246,0.88);backdrop-filter:blur(10px);border-bottom:1px solid #E8E2DB;">
+  <div style="max-width:1320px;margin:0 auto;padding:16px clamp(20px,4vw,40px);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:12px;cursor:pointer;" onClick="{{ goToHome }}">
       <image-slot id="site-logo" src="uploads/Vsdector.svg" shape="rect" placeholder="Logo" style="width:24px;height:24px;display:block;"></image-slot>
       <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;letter-spacing:-0.01em;">{{ settings.siteName }}</span>
+      <span style="background:#F3EEE7;color:#6B645C;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:5px 10px;border-radius:100px;">Portfolio</span>
     </div>
-
-    <sc-if value="{{ isMobileNav }}" hint-placeholder-val="{{ false }}">
-      <button onClick="{{ toggleMobileNav }}" style="background:none;border:1px solid #E8E2DB;border-radius:6px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;cursor:pointer;">
-        <span style="width:18px;height:2px;background:#15120F;display:block;"></span>
-        <span style="width:18px;height:2px;background:#15120F;display:block;"></span>
-      </button>
-    </sc-if>
-    <sc-if value="{{ isMobileNav }}" hint-placeholder-val="{{ false }}">
-    <sc-if value="{{ mobileNavOpen }}" hint-placeholder-val="{{ false }}">
-      <div style="position:absolute;top:64px;left:0;right:0;background:#FBF9F6;border-bottom:1px solid #E8E2DB;padding:16px clamp(20px,4vw,40px);display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 30px -20px rgba(21,18,15,0.2);">
-        <span style="font-size:15px;font-weight:600;cursor:pointer;" onClick="{{ goToLanding }}">Home</span>
-        <span style="font-size:15px;font-weight:600;cursor:pointer;" onClick="{{ goToPortfolios }}">Work</span>
-        <a href="mailto:{{ settings.contactEmail }}" style="font-size:15px;font-weight:700;color:#FF6533;text-decoration:none;">Start a project &#8594;</a>
-      </div>
-    </sc-if>
-    </sc-if>
-
-    <div style="display:{{ desktopNavDisplay }};align-items:center;gap:36px;">
-      <span style="font-size:15px;font-weight:600;color:#15120F;cursor:pointer;" style-hover="color:#FF6533;" onClick="{{ goToLanding }}">Home</span>
-      <span style="font-size:15px;font-weight:600;color:#15120F;cursor:pointer;" style-hover="color:#FF6533;" onClick="{{ goToPortfolios }}">Work</span>
-      <a href="mailto:{{ settings.contactEmail }}" style="font-size:14px;font-weight:700;color:#FFFFFF;background:#15120F;padding:11px 22px;border-radius:6px;text-decoration:none;" style-hover="background:#FF6533;">Start a project</a>
+    <div style="display:flex;align-items:center;gap:18px;">
+      <a href="{{ settings.externalUrl }}" target="_blank" style="display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;color:#15120F;border:1px solid #D8D2C9;padding:10px 18px;border-radius:100px;text-decoration:none;" style-hover="border-color:#FF6533;color:#FF6533;">{{ settings.externalLabel }} <span>&#8599;</span></a>
+      <span onClick="{{ goToAdminLogin }}" style="font-size:12.5px;color:#A79D93;cursor:pointer;" style-hover="color:#FF6533;">Admin</span>
     </div>
   </div>
 </header>
 </sc-if>
 
-<sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
-<main>
-  <section style="max-width:1240px;margin:0 auto;padding:clamp(48px,9vw,120px) clamp(20px,4vw,40px) clamp(40px,6vw,80px);display:flex;gap:56px;flex-wrap:wrap;align-items:center;">
-    <div style="flex:1 1 440px;animation:fadeUp .7s ease both;">
-      <div style="font-size:13px;font-weight:700;color:#FF6533;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:18px;">Digital product studio</div>
-      <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(38px,5.6vw,68px);line-height:1.04;letter-spacing:-0.02em;margin:0 0 24px;">We design and build digital products that grow infinitely.</h1>
-      <p style="font-size:18px;line-height:1.6;color:#6B645C;max-width:520px;margin:0 0 32px;">{{ settings.siteName }} is a small, senior team shipping Laravel and React applications, mobile-ready APIs, and Figma-led product design for founders and teams who need it done right the first time.</p>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;">
-        <button onClick="{{ goToPortfolios }}" style="background:#FF6533;color:#fff;border:none;padding:15px 28px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;" style-hover="background:#E8501F;">View our work</button>
-        <a href="mailto:{{ settings.contactEmail }}" style="border:1px solid #D8D2C9;color:#15120F;padding:15px 28px;border-radius:6px;font-size:15px;font-weight:700;text-decoration:none;" style-hover="border-color:#15120F;">Start a project</a>
-      </div>
-    </div>
-    <div style="flex:1 1 340px;position:relative;min-height:340px;display:flex;align-items:center;justify-content:center;animation:fadeUp .9s ease both;">
-      <div style="position:absolute;width:340px;height:340px;background:radial-gradient(circle,rgba(255,101,51,0.28) 0%,rgba(255,101,51,0) 70%);filter:blur(6px);"></div>
-      <img src="uploads/Adobe Express - file (26) 1.png" alt="" style="position:relative;width:min(420px,90%);filter:drop-shadow(0 30px 40px rgba(21,18,15,0.25));">
-    </div>
-  </section>
-
-  <section style="border-top:1px solid #E8E2DB;border-bottom:1px solid #E8E2DB;padding:28px clamp(20px,4vw,40px);">
-    <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:28px;flex-wrap:wrap;">
-      <span style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#A79D93;white-space:nowrap;">Recently trusted by</span>
-      <div style="display:flex;gap:36px;flex-wrap:wrap;opacity:0.55;">
-        <sc-for list="{{ publicClients }}" as="cl" hint-placeholder-count="6">
-          <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;">{{ cl.name }}</span>
-        </sc-for>
-      </div>
-    </div>
-  </section>
-
-  <section style="max-width:1240px;margin:0 auto;padding:clamp(56px,8vw,100px) clamp(20px,4vw,40px);">
-    <div style="max-width:640px;margin:0 0 48px;">
-      <div style="font-size:13px;font-weight:700;color:#FF6533;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px;">Services</div>
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(28px,3.6vw,42px);margin:0 0 16px;letter-spacing:-0.01em;">What we do</h2>
-      <p style="font-size:16px;color:#6B645C;line-height:1.6;margin:0;">From backend architecture to the pixel-level details of an interface, one team carries your project end to end.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:#E8E2DB;border:1px solid #E8E2DB;">
-      <sc-for list="{{ publicServices }}" as="sv" hint-placeholder-count="4">
-        <div style="background:#FBF9F6;padding:36px 28px;">
-          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:#FFE4D6;-webkit-text-stroke:1px #FF6533;font-size:14px;margin-bottom:20px;">{{ sv.orderLabel }}</div>
-          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;margin:0 0 10px;">{{ sv.title }}</h3>
-          <p style="font-size:14.5px;color:#6B645C;line-height:1.6;margin:0;">{{ sv.description }}</p>
-        </div>
-      </sc-for>
-    </div>
-  </section>
-
-  <section style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,40px) clamp(56px,8vw,100px);">
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:40px;">
-      <div>
-        <div style="font-size:13px;font-weight:700;color:#FF6533;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px;">Selected work</div>
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(28px,3.6vw,42px);margin:0;letter-spacing:-0.01em;">Recent projects</h2>
-      </div>
-      <span style="font-size:15px;font-weight:700;color:#15120F;cursor:pointer;white-space:nowrap;" style-hover="color:#FF6533;" onClick="{{ goToPortfolios }}">View all projects &#8594;</span>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
-      <sc-for list="{{ featuredProjects }}" as="project" hint-placeholder-count="4">
-        <dc-import name="ProjectCard" project="{{ project }}" hint-size="100%,380px"></dc-import>
-      </sc-for>
-    </div>
-  </section>
-
-  <section style="background:#15120F;padding:clamp(56px,8vw,90px) clamp(20px,4vw,40px);">
-    <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;">
-      <div>
-        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(32px,4vw,48px);color:#FF6533;">60+</div>
-        <div style="font-size:14px;color:#A79D93;margin-top:6px;">Projects delivered</div>
-      </div>
-      <div>
-        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(32px,4vw,48px);color:#FF6533;">35+</div>
-        <div style="font-size:14px;color:#A79D93;margin-top:6px;">Happy clients</div>
-      </div>
-      <div>
-        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(32px,4vw,48px);color:#FF6533;">4.9/5</div>
-        <div style="font-size:14px;color:#A79D93;margin-top:6px;">Average client rating</div>
-      </div>
-      <div>
-        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(32px,4vw,48px);color:#FF6533;">3 yrs</div>
-        <div style="font-size:14px;color:#A79D93;margin-top:6px;">Shipping on Fiverr &amp; beyond</div>
-      </div>
-    </div>
-  </section>
-
-  <section style="max-width:1240px;margin:0 auto;padding:clamp(56px,8vw,100px) clamp(20px,4vw,40px);">
-    <div style="max-width:640px;margin:0 0 56px;">
-      <div style="font-size:13px;font-weight:700;color:#FF6533;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px;">How we work</div>
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(28px,3.6vw,42px);margin:0;letter-spacing:-0.01em;">A clear process, every time</h2>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;">
-      <div style="border-top:2px solid #FF6533;padding-top:20px;">
-        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#A79D93;margin-bottom:10px;">01</div>
-        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;">Discover</h3>
-        <p style="font-size:14px;color:#6B645C;line-height:1.6;margin:0;">We map goals, users, and technical constraints before a line of anything is designed.</p>
-      </div>
-      <div style="border-top:2px solid #FF6533;padding-top:20px;">
-        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#A79D93;margin-bottom:10px;">02</div>
-        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;">Design</h3>
-        <p style="font-size:14px;color:#6B645C;line-height:1.6;margin:0;">Figma flows and UI systems, reviewed with you before any build work starts.</p>
-      </div>
-      <div style="border-top:2px solid #FF6533;padding-top:20px;">
-        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#A79D93;margin-bottom:10px;">03</div>
-        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;">Build</h3>
-        <p style="font-size:14px;color:#6B645C;line-height:1.6;margin:0;">Laravel, React, and mobile-ready APIs, shipped in weekly reviewable increments.</p>
-      </div>
-      <div style="border-top:2px solid #FF6533;padding-top:20px;">
-        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#A79D93;margin-bottom:10px;">04</div>
-        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;">Launch</h3>
-        <p style="font-size:14px;color:#6B645C;line-height:1.6;margin:0;">Deployed, documented, and handed off with a plan for what comes next.</p>
-      </div>
-    </div>
-  </section>
-
-  <section style="background:#F3EEE7;padding:clamp(56px,8vw,100px) clamp(20px,4vw,40px);">
-    <div style="max-width:1240px;margin:0 auto;">
-      <div style="font-size:13px;font-weight:700;color:#FF6533;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px;">Testimonials</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;">
-        <sc-for list="{{ publicTestimonials }}" as="ts" hint-placeholder-count="3">
-          <div style="background:#FFFFFF;border:1px solid #E8E2DB;border-radius:8px;padding:32px;">
-            <p style="font-family:'Space Grotesk',sans-serif;font-size:19px;line-height:1.5;margin:0 0 20px;">"{{ ts.quote }}"</p>
-            <div style="font-size:14px;font-weight:700;">{{ ts.author }}</div>
-            <div style="font-size:13px;color:#6B645C;">{{ ts.role }}</div>
-          </div>
-        </sc-for>
-      </div>
-    </div>
-  </section>
-
-  <section style="background:#15120F;padding:clamp(56px,8vw,110px) clamp(20px,4vw,40px);text-align:center;">
-    <div style="max-width:680px;margin:0 auto;">
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:#FFFFFF;font-size:clamp(30px,4.4vw,48px);margin:0 0 18px;letter-spacing:-0.01em;">Have a project in mind?</h2>
-      <p style="color:#A79D93;font-size:17px;line-height:1.6;margin:0 0 32px;">Tell us what you're building. We'll reply within a day with next steps.</p>
-      <a href="mailto:{{ settings.contactEmail }}" style="display:inline-block;background:#FF6533;color:#fff;padding:16px 32px;border-radius:6px;font-size:15px;font-weight:700;text-decoration:none;" style-hover="background:#fff;color:#15120F;">{{ settings.contactEmail }}</a>
-    </div>
-  </section>
-</main>
-</sc-if>
-
-<sc-if value="{{ isPortfolios }}" hint-placeholder-val="{{ false }}">
-<main style="max-width:1240px;margin:0 auto;padding:clamp(40px,6vw,72px) clamp(20px,4vw,40px) clamp(56px,8vw,100px);">
-  <div style="max-width:640px;margin:0 0 40px;">
-    <div style="font-size:13px;font-weight:700;color:#FF6533;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px;">Our work</div>
-    <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,4.4vw,46px);margin:0 0 14px;letter-spacing:-0.01em;">Selected projects</h1>
-    <p style="font-size:16px;color:#6B645C;line-height:1.6;margin:0;">Web platforms, mobile-ready APIs, and product design shipped for clients across retail, fintech, health, and hospitality.</p>
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<main style="max-width:1320px;margin:0 auto;padding:clamp(48px,8vw,88px) clamp(20px,4vw,40px) clamp(40px,6vw,64px);">
+  <div style="max-width:720px;margin:0 0 12px;animation:fadeUp .6s ease both;">
+    <div style="font-size:13px;font-weight:700;color:#FF6533;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">Selected work</div>
+    <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(34px,5vw,58px);line-height:1.05;letter-spacing:-0.02em;margin:0 0 18px;">Projects we've shipped.</h1>
+    <p style="font-size:17px;line-height:1.6;color:#6B645C;margin:0;">{{ settings.tagline }}</p>
   </div>
+  <div style="font-size:13.5px;color:#A79D93;margin-bottom:40px;animation:fadeUp .6s ease .05s both;">{{ resultsCountLabel }}</div>
 
-  <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:36px;">
-    <div style="display:inline-flex;background:#F3EEE7;border-radius:100px;padding:4px;align-self:flex-start;">
-      <sc-if value="{{ viewTabFeatured }}" hint-placeholder-val="{{ true }}">
-        <span onClick="{{ setPortfolioViewFeatured }}" style="padding:9px 20px;border-radius:100px;font-size:13.5px;font-weight:700;cursor:pointer;background:#fff;color:#15120F;box-shadow:0 1px 3px rgba(21,18,15,0.12);">Featured</span>
-      </sc-if>
-      <sc-if value="{{ viewTabFeaturedOff }}" hint-placeholder-val="{{ false }}">
-        <span onClick="{{ setPortfolioViewFeatured }}" style="padding:9px 20px;border-radius:100px;font-size:13.5px;font-weight:600;cursor:pointer;color:#6B645C;">Featured</span>
-      </sc-if>
-      <sc-if value="{{ viewTabAll }}" hint-placeholder-val="{{ false }}">
-        <span onClick="{{ setPortfolioViewAll }}" style="padding:9px 20px;border-radius:100px;font-size:13.5px;font-weight:700;cursor:pointer;background:#fff;color:#15120F;box-shadow:0 1px 3px rgba(21,18,15,0.12);">All</span>
-      </sc-if>
-      <sc-if value="{{ viewTabAllOff }}" hint-placeholder-val="{{ true }}">
-        <span onClick="{{ setPortfolioViewAll }}" style="padding:9px 20px;border-radius:100px;font-size:13.5px;font-weight:600;cursor:pointer;color:#6B645C;">All</span>
-      </sc-if>
-    </div>
-    <input type="text" value="{{ search }}" onChange="{{ setSearch }}" placeholder="Search projects by name, client, or tag" style="width:100%;padding:14px 18px;border:1px solid #E8E2DB;border-radius:6px;font-size:15px;font-family:'Manrope',sans-serif;background:#fff;">
+  <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:44px;animation:fadeUp .6s ease .1s both;">
+    <input type="text" value="{{ search }}" onChange="{{ setSearch }}" placeholder="Search by project, client, or tag" style="width:100%;max-width:480px;padding:14px 18px;border:1px solid #E8E2DB;border-radius:100px;font-size:14.5px;font-family:'Manrope',sans-serif;background:#fff;">
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <sc-for list="{{ categoryPills }}" as="pill" hint-placeholder-count="5">
         <sc-if value="{{ pill.active }}" hint-placeholder-val="{{ false }}">
           <button onClick="{{ pill.onSelect }}" style="background:#15120F;color:#fff;border:1px solid #15120F;padding:9px 16px;border-radius:100px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;">{{ pill.name }}</button>
         </sc-if>
         <sc-if value="{{ pill.inactive }}" hint-placeholder-val="{{ true }}">
-          <button onClick="{{ pill.onSelect }}" style="background:#fff;color:#15120F;border:1px solid #E8E2DB;padding:9px 16px;border-radius:100px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;">{{ pill.name }}</button>
+          <button onClick="{{ pill.onSelect }}" style="background:#fff;color:#15120F;border:1px solid #E8E2DB;padding:9px 16px;border-radius:100px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;" style-hover="border-color:#FF6533;color:#FF6533;">{{ pill.name }}</button>
         </sc-if>
       </sc-for>
     </div>
@@ -238,15 +74,21 @@
   </div>
 
   <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
-      <sc-for list="{{ filteredProjects }}" as="project" hint-placeholder-count="6">
-        <dc-import name="ProjectCard" project="{{ project }}" hint-size="100%,380px"></dc-import>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));grid-auto-rows:340px;gap:22px;">
+      <sc-for list="{{ visibleProjects }}" as="project" hint-placeholder-count="6">
+        <dc-import name="ProjectCard" project="{{ project }}" style="grid-column:{{ project.gridSpan }};" hint-size="100%,340px"></dc-import>
       </sc-for>
     </div>
   </sc-if>
   <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
-    <div style="text-align:center;padding:80px 20px;border:1px dashed #E8E2DB;border-radius:8px;">
+    <div style="text-align:center;padding:100px 20px;border:1px dashed #E8E2DB;border-radius:10px;">
       <p style="font-size:16px;color:#6B645C;margin:0;">No projects match your filters.</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasMore }}" hint-placeholder-val="{{ false }}">
+    <div ref="{{ setSentinelRef }}" style="display:flex;align-items:center;justify-content:center;padding:56px 0 12px;">
+      <span style="width:26px;height:26px;border-radius:100px;border:2.5px solid #E8E2DB;border-top-color:#FF6533;display:inline-block;animation:spin .7s linear infinite;"></span>
     </div>
   </sc-if>
 </main>
@@ -254,88 +96,88 @@
 
 <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
 <main style="max-width:1080px;margin:0 auto;padding:clamp(32px,5vw,56px) clamp(20px,4vw,40px) clamp(56px,8vw,100px);">
-  <span style="font-size:14px;font-weight:700;color:#6B645C;cursor:pointer;display:inline-block;margin-bottom:28px;" style-hover="color:#FF6533;" onClick="{{ goToPortfolios }}">&#8592; All projects</span>
+  <span style="font-size:14px;font-weight:700;color:#6B645C;cursor:pointer;display:inline-block;margin-bottom:28px;" style-hover="color:#FF6533;" onClick="{{ goToHome }}">&#8592; All projects</span>
 
-  <div style="position:relative;height:clamp(240px,40vw,420px);border-radius:10px;overflow:hidden;background:linear-gradient(135deg,#221C18 0%,#17130F 55%,#0E0C0A 100%);margin-bottom:32px;">
-    <image-slot id="{{ currentProject.featuredSlotId }}" shape="rect" placeholder="Add a hero image in the admin editor" style="position:absolute;inset:0;width:100%;height:100%;"></image-slot>
-    <div style="position:absolute;top:0;right:0;width:220px;height:220px;background:#FF6533;clip-path:polygon(100% 0,100% 100%,0 0);opacity:0.85;pointer-events:none;"></div>
-    <div style="position:absolute;bottom:0;left:0;right:0;padding:clamp(24px,4vw,44px);background:linear-gradient(0deg,rgba(14,12,10,0.75) 0%,rgba(14,12,10,0) 60%);pointer-events:none;">
-      <div style="color:#FFE4D6;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">{{ currentProject.category }} &middot; {{ currentProject.type }}</div>
-      <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:#fff;font-size:clamp(28px,5vw,50px);margin:0;letter-spacing:-0.01em;">{{ currentProject.title }}</h1>
+  <div style="position:relative;height:clamp(280px,46vw,480px);border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#221C18 0%,#17130F 55%,#0E0C0A 100%);margin-bottom:36px;animation:fadeUp .5s ease both;cursor:pointer;box-shadow:0 40px 80px -30px rgba(21,18,15,0.4);" onClick="{{ openHeroLightbox }}">
+    <image-slot id="{{ currentProject.featuredSlotId }}" shape="rect" placeholder="Add a hero image in the admin editor" style="position:absolute;inset:0;width:100%;height:100%;transition:transform .6s cubic-bezier(.16,1,.3,1);" style-hover="transform:scale(1.03);"></image-slot>
+    <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(14,12,10,0.82) 0%,rgba(14,12,10,0) 55%);pointer-events:none;"></div>
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:clamp(28px,4.5vw,52px);pointer-events:none;">
+      <div style="display:inline-flex;color:#FFE4D6;background:rgba(255,255,255,0.12);backdrop-filter:blur(6px);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:7px 14px;border-radius:100px;margin-bottom:16px;">{{ currentProject.category }} &middot; {{ currentProject.type }}</div>
+      <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:#fff;font-size:clamp(30px,5.4vw,56px);margin:0;letter-spacing:-0.02em;line-height:1.04;">{{ currentProject.title }}</h1>
     </div>
   </div>
 
   <sc-if value="{{ hasStatusNote }}" hint-placeholder-val="{{ false }}">
-    <div style="background:#FFF6EC;border:1px solid #FFD9BE;color:#B5541F;font-size:13.5px;font-weight:600;padding:12px 18px;border-radius:6px;margin-bottom:28px;">{{ statusNoteText }}</div>
+    <div style="background:#FFF6EC;border:1px solid #FFD9BE;color:#B5541F;font-size:13.5px;font-weight:600;padding:12px 18px;border-radius:8px;margin-bottom:28px;">{{ statusNoteText }}</div>
   </sc-if>
 
-  <div style="display:flex;flex-wrap:wrap;gap:28px;padding:24px 0;border-top:1px solid #E8E2DB;border-bottom:1px solid #E8E2DB;margin-bottom:40px;">
-    <div>
-      <div style="font-size:12px;font-weight:700;color:#A79D93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Client</div>
-      <div style="font-size:15px;font-weight:600;">{{ currentProject.client }}</div>
+  <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:44px;">
+    <div style="background:#fff;border:1px solid #E8E2DB;border-radius:100px;padding:10px 20px;display:flex;align-items:center;gap:8px;">
+      <span style="font-size:11.5px;font-weight:700;color:#A79D93;text-transform:uppercase;letter-spacing:0.05em;">Client</span>
+      <span style="font-size:14px;font-weight:700;">{{ currentProject.client }}</span>
     </div>
-    <div>
-      <div style="font-size:12px;font-weight:700;color:#A79D93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Date</div>
-      <div style="font-size:15px;font-weight:600;">{{ currentProject.date }}</div>
+    <div style="background:#fff;border:1px solid #E8E2DB;border-radius:100px;padding:10px 20px;display:flex;align-items:center;gap:8px;">
+      <span style="font-size:11.5px;font-weight:700;color:#A79D93;text-transform:uppercase;letter-spacing:0.05em;">Date</span>
+      <span style="font-size:14px;font-weight:700;">{{ currentProject.date }}</span>
     </div>
-    <div style="flex:1 1 260px;">
-      <div style="font-size:12px;font-weight:700;color:#A79D93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Technologies</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <sc-for list="{{ currentProject.technologies }}" as="tech" hint-placeholder-count="3">
-          <span style="background:#F3EEE7;padding:5px 12px;border-radius:100px;font-size:12.5px;font-weight:600;">{{ tech }}</span>
-        </sc-for>
-      </div>
-    </div>
-    <sc-if value="{{ hasDevUrl }}" hint-placeholder-val="{{ false }}">
-      <a href="{{ currentProject.devUrl }}" target="_blank" style="align-self:flex-start;border:1px solid #D8D2C9;color:#15120F;padding:12px 22px;border-radius:6px;font-size:14px;font-weight:700;text-decoration:none;">View staging</a>
-    </sc-if>
+    <sc-for list="{{ currentProject.technologies }}" as="tech" hint-placeholder-count="3">
+      <div style="background:#F3EEE7;border-radius:100px;padding:10px 18px;font-size:13.5px;font-weight:600;color:#4A453E;">{{ tech }}</div>
+    </sc-for>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:48px;">
     <sc-if value="{{ hasClientUrl }}" hint-placeholder-val="{{ false }}">
-      <a href="{{ currentProject.clientUrl }}" target="_blank" style="align-self:flex-start;background:#FF6533;color:#fff;padding:12px 22px;border-radius:6px;font-size:14px;font-weight:700;text-decoration:none;">Visit live site</a>
+      <a href="{{ currentProject.clientUrl }}" target="_blank" style="background:#FF6533;color:#fff;padding:13px 24px;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;" style-hover="background:#E8501F;">Visit live site &#8599;</a>
+    </sc-if>
+    <sc-if value="{{ hasDevUrl }}" hint-placeholder-val="{{ false }}">
+      <a href="{{ currentProject.devUrl }}" target="_blank" style="border:1px solid #D8D2C9;color:#15120F;padding:13px 24px;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;" style-hover="border-color:#15120F;">View staging</a>
     </sc-if>
     <sc-if value="{{ hasRepoUrl }}" hint-placeholder-val="{{ false }}">
-      <a href="{{ currentProject.repoUrl }}" target="_blank" style="align-self:flex-start;border:1px solid #D8D2C9;color:#15120F;padding:12px 22px;border-radius:6px;font-size:14px;font-weight:700;text-decoration:none;">View repository</a>
+      <a href="{{ currentProject.repoUrl }}" target="_blank" style="border:1px solid #D8D2C9;color:#15120F;padding:13px 24px;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;" style-hover="border-color:#15120F;">View repository</a>
     </sc-if>
   </div>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:40px;margin-bottom:48px;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:48px;margin-bottom:56px;">
     <div>
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;margin:0 0 14px;">Overview</h2>
-      <p style="font-size:15.5px;color:#4A453E;line-height:1.7;margin:0;">{{ currentProject.overview }}</p>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:23px;margin:0 0 14px;">Overview</h2>
+      <p style="font-size:16px;color:#4A453E;line-height:1.75;margin:0;">{{ currentProject.overview }}</p>
     </div>
     <div>
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;margin:0 0 14px;">The challenge</h2>
-      <p style="font-size:15.5px;color:#4A453E;line-height:1.7;margin:0;">{{ currentProject.problem }}</p>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:23px;margin:0 0 14px;">The challenge</h2>
+      <p style="font-size:16px;color:#4A453E;line-height:1.75;margin:0;">{{ currentProject.problem }}</p>
     </div>
   </div>
 
-  <sc-if value="{{ hasGallery }}" hint-placeholder-val="{{ false }}">
-    <div style="margin-bottom:48px;">
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;margin:0 0 16px;">Gallery</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">
-        <sc-for list="{{ detailGalleryView }}" as="g" hint-placeholder-count="3">
-          <image-slot id="{{ g.slotId }}" shape="rounded" radius="8" placeholder="Image" style="width:100%;height:200px;"></image-slot>
-        </sc-for>
-      </div>
-    </div>
-  </sc-if>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:24px;padding:36px 0;border-top:1px solid #E8E2DB;margin-bottom:48px;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:56px;">
     <sc-for list="{{ currentProject.metrics }}" as="metric" hint-placeholder-count="3">
-      <div>
-        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:34px;color:#FF6533;">{{ metric.value }}</div>
-        <div style="font-size:13.5px;color:#6B645C;margin-top:6px;">{{ metric.label }}</div>
+      <div style="background:#F3EEE7;border-radius:12px;padding:24px 22px;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:32px;color:#FF6533;letter-spacing:-0.01em;">{{ metric.value }}</div>
+        <div style="font-size:13px;color:#6B645C;margin-top:8px;font-weight:600;">{{ metric.label }}</div>
       </div>
     </sc-for>
   </div>
 
+  <sc-if value="{{ hasGallery }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-bottom:56px;">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:23px;margin:0 0 18px;">Gallery</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));grid-auto-rows:220px;gap:14px;">
+        <sc-for list="{{ detailGalleryView }}" as="g" hint-placeholder-count="3">
+          <div onClick="{{ g.onOpen }}" style="position:relative;cursor:pointer;border-radius:12px;overflow:hidden;grid-row:{{ g.tall }};transition:transform .35s cubic-bezier(.16,1,.3,1);" style-hover="transform:scale(1.015);">
+            <image-slot id="{{ g.slotId }}" shape="rect" placeholder="Image" style="width:100%;height:100%;transition:transform .5s ease;" style-hover="transform:scale(1.06);"></image-slot>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ hasVideos }}" hint-placeholder-val="{{ false }}">
-    <div style="margin-bottom:48px;">
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;margin:0 0 16px;">Videos</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;">
+    <div style="margin-bottom:56px;">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:23px;margin:0 0 18px;">Videos</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
         <sc-for list="{{ detailVideosView }}" as="v" hint-placeholder-count="2">
-          <a href="{{ v.url }}" target="_blank" style="display:flex;align-items:center;gap:12px;padding:16px 18px;border:1px solid #E8E2DB;border-radius:8px;text-decoration:none;color:#15120F;">
-            <span style="width:34px;height:34px;border-radius:100px;background:#15120F;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex:0 0 auto;">&#9654;</span>
-            <span style="font-size:14px;font-weight:600;">{{ v.title }}</span>
+          <a href="{{ v.url }}" target="_blank" style="display:flex;align-items:center;gap:14px;padding:18px 20px;background:#fff;border:1px solid #E8E2DB;border-radius:12px;text-decoration:none;color:#15120F;transition:border-color .2s ease, box-shadow .2s ease;" style-hover="border-color:#FF6533;box-shadow:0 12px 28px -16px rgba(21,18,15,0.25);">
+            <span style="width:38px;height:38px;border-radius:100px;background:#15120F;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex:0 0 auto;">&#9654;</span>
+            <span style="font-size:14.5px;font-weight:700;">{{ v.title }}</span>
           </a>
         </sc-for>
       </div>
@@ -343,13 +185,13 @@
   </sc-if>
 
   <sc-if value="{{ hasFiles }}" hint-placeholder-val="{{ false }}">
-    <div style="margin-bottom:48px;">
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;margin:0 0 16px;">Files</h2>
+    <div style="margin-bottom:56px;">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:23px;margin:0 0 18px;">Files</h2>
       <div style="display:flex;flex-direction:column;gap:10px;">
         <sc-for list="{{ detailFilesView }}" as="fl" hint-placeholder-count="2">
-          <a href="{{ fl.url }}" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border:1px solid #E8E2DB;border-radius:8px;text-decoration:none;color:#15120F;font-size:14px;font-weight:600;">
+          <a href="{{ fl.url }}" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#fff;border:1px solid #E8E2DB;border-radius:10px;text-decoration:none;color:#15120F;font-size:14.5px;font-weight:700;transition:border-color .2s ease;" style-hover="border-color:#FF6533;">
             <span>{{ fl.name }}</span>
-            <span style="color:#A79D93;font-size:12px;">Download &#8595;</span>
+            <span style="color:#A79D93;font-size:12px;font-weight:600;">Download &#8595;</span>
           </a>
         </sc-for>
       </div>
@@ -357,65 +199,43 @@
   </sc-if>
 
   <sc-if value="{{ hasTestimonial }}" hint-placeholder-val="{{ false }}">
-    <div style="background:#F3EEE7;border-radius:8px;padding:36px;margin-bottom:48px;">
-      <p style="font-family:'Space Grotesk',sans-serif;font-size:21px;line-height:1.5;margin:0 0 18px;">"{{ currentProject.testimonialQuote }}"</p>
-      <div style="font-size:14px;font-weight:700;">{{ currentProject.testimonialAuthor }}</div>
-      <div style="font-size:13px;color:#6B645C;">{{ currentProject.testimonialRole }}</div>
+    <div style="background:#15120F;border-radius:16px;padding:44px;margin-bottom:56px;position:relative;overflow:hidden;">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:64px;color:#FF6533;line-height:1;margin-bottom:8px;opacity:0.85;">"</div>
+      <p style="font-family:'Space Grotesk',sans-serif;font-size:23px;line-height:1.5;color:#fff;margin:0 0 22px;max-width:640px;">{{ currentProject.testimonialQuote }}</p>
+      <div style="font-size:14.5px;font-weight:700;color:#fff;">{{ currentProject.testimonialAuthor }}</div>
+      <div style="font-size:13px;color:#A79D93;">{{ currentProject.testimonialRole }}</div>
     </div>
   </sc-if>
 
   <sc-if value="{{ hasPrevNext }}" hint-placeholder-val="{{ false }}">
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;border-top:1px solid #E8E2DB;padding-top:32px;">
-      <div style="cursor:pointer;padding:20px;border:1px solid #E8E2DB;border-radius:8px;" onClick="{{ prevProject.onOpen }}">
-        <div style="font-size:12px;font-weight:700;color:#A79D93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">&#8592; Previous</div>
-        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;">{{ prevProject.title }}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;border-top:1px solid #E8E2DB;padding-top:36px;">
+      <div style="cursor:pointer;padding:24px;border:1px solid #E8E2DB;border-radius:12px;transition:border-color .2s ease, transform .25s ease;" style-hover="border-color:#FF6533;transform:translateY(-2px);" onClick="{{ prevProject.onOpen }}">
+        <div style="font-size:12px;font-weight:700;color:#A79D93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">&#8592; Previous</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;">{{ prevProject.title }}</div>
       </div>
-      <div style="cursor:pointer;padding:20px;border:1px solid #E8E2DB;border-radius:8px;text-align:right;" onClick="{{ nextProject.onOpen }}">
-        <div style="font-size:12px;font-weight:700;color:#A79D93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Next &#8594;</div>
-        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;">{{ nextProject.title }}</div>
+      <div style="cursor:pointer;padding:24px;border:1px solid #E8E2DB;border-radius:12px;text-align:right;transition:border-color .2s ease, transform .25s ease;" style-hover="border-color:#FF6533;transform:translateY(-2px);" onClick="{{ nextProject.onOpen }}">
+        <div style="font-size:12px;font-weight:700;color:#A79D93;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">Next &#8594;</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;">{{ nextProject.title }}</div>
       </div>
     </div>
   </sc-if>
 </main>
 </sc-if>
 
-<sc-if value="{{ showPublicChrome }}" hint-placeholder-val="{{ true }}">
-<footer style="border-top:1px solid #E8E2DB;padding:clamp(40px,6vw,64px) clamp(20px,4vw,40px) 32px;">
-  <div style="max-width:1240px;margin:0 auto;">
-    <div style="display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;margin-bottom:36px;">
-      <div style="max-width:320px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-          <image-slot id="site-logo" src="uploads/Vsdector.svg" shape="rect" placeholder="Logo" style="width:22px;height:22px;"></image-slot>
-          <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;">{{ settings.siteName }}</span>
-        </div>
-        <p style="font-size:14px;color:#6B645C;line-height:1.6;margin:0;">{{ settings.tagline }} A small studio building web platforms, APIs, and product design for teams worldwide.</p>
-      </div>
-      <div style="display:flex;gap:64px;flex-wrap:wrap;">
-        <div>
-          <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#A79D93;margin-bottom:14px;">Sitemap</div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <span style="font-size:14px;cursor:pointer;" onClick="{{ goToLanding }}">Home</span>
-            <span style="font-size:14px;cursor:pointer;" onClick="{{ goToPortfolios }}">Work</span>
-          </div>
-        </div>
-        <div>
-          <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#A79D93;margin-bottom:14px;">Contact</div>
-          <a href="mailto:{{ settings.contactEmail }}" style="font-size:14px;color:#15120F;text-decoration:none;display:block;margin-bottom:10px;">{{ settings.contactEmail }}</a>
-          <sc-if value="{{ hasContactPhone }}" hint-placeholder-val="{{ false }}">
-            <div style="font-size:14px;color:#6B645C;margin-bottom:10px;">{{ settings.contactPhone }}</div>
-          </sc-if>
-          <sc-if value="{{ hasAddress }}" hint-placeholder-val="{{ false }}">
-            <div style="font-size:14px;color:#6B645C;">{{ settings.address }}</div>
-          </sc-if>
-        </div>
-      </div>
+<sc-if value="{{ hasLightbox }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;background:rgba(14,12,10,0.94);z-index:180;display:flex;align-items:center;justify-content:center;" onClick="{{ closeLightbox }}">
+    <span onClick="{{ closeLightbox }}" style="position:absolute;top:24px;right:28px;color:#fff;font-size:26px;cursor:pointer;z-index:2;">&#10005;</span>
+    <sc-if value="{{ lightboxHasMultiple }}" hint-placeholder-val="{{ false }}">
+      <span onClick="{{ lightboxPrev }}" style="position:absolute;left:20px;top:50%;transform:translateY(-50%);color:#fff;font-size:34px;cursor:pointer;z-index:2;padding:10px;" style-hover="color:#FF6533;">&#8249;</span>
+      <span onClick="{{ lightboxNext }}" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);color:#fff;font-size:34px;cursor:pointer;z-index:2;padding:10px;" style-hover="color:#FF6533;">&#8250;</span>
+    </sc-if>
+    <div style="width:min(1100px,88vw);height:min(720px,80vh);" onClick="{{ stopPropagation }}">
+      <image-slot id="{{ lightboxSlotId }}" shape="rect" radius="10" placeholder="Image" style="width:100%;height:100%;"></image-slot>
     </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-top:1px solid #E8E2DB;padding-top:24px;">
-      <span style="font-size:13px;color:#A79D93;">&copy; 2026 {{ settings.siteName }}. All rights reserved.</span>
-      <span style="font-size:13px;color:#A79D93;cursor:pointer;" style-hover="color:#FF6533;" onClick="{{ goToAdminLogin }}">Admin login</span>
-    </div>
+    <sc-if value="{{ lightboxHasMultiple }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:#C9C0B6;font-size:13px;font-weight:600;">{{ lightboxCounter }}</div>
+    </sc-if>
   </div>
-</footer>
 </sc-if>
 
 <sc-if value="{{ isAdminLogin }}" hint-placeholder-val="{{ false }}">
@@ -444,7 +264,7 @@
     </form>
     <p style="color:#6B645C;font-size:12.5px;margin:20px 0 0;text-align:center;">Demo prototype &mdash; any email &amp; password works.</p>
     <div style="text-align:center;margin-top:18px;">
-      <span style="color:#A79D93;font-size:13px;cursor:pointer;" onClick="{{ goToLanding }}">&#8592; Back to site</span>
+      <span style="color:#A79D93;font-size:13px;cursor:pointer;" onClick="{{ goToHome }}">&#8592; Back to site</span>
     </div>
   </div>
 </main>
@@ -548,7 +368,7 @@
         </sc-if>
         <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-top:16px;">
           <input type="checkbox" checked="{{ editorForm.highlight }}" onChange="{{ toggleEditorHighlight }}" style="width:17px;height:17px;">
-          <span style="font-size:13.5px;font-weight:600;">Feature on landing page</span>
+          <span style="font-size:13.5px;font-weight:600;">Feature this project</span>
         </label>
         <div style="margin-top:16px;">
           <label style="font-size:12.5px;font-weight:700;color:#6B645C;display:block;margin-bottom:6px;">Completed date</label>
@@ -690,7 +510,7 @@
       <button onClick="{{ setTabOverview }}" style="display:{{ ovDisplayOff }};text-align:left;background:none;color:#C9C0B6;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;" style-hover="background:#1E1A17;color:#fff;">Overview</button>
       <button onClick="{{ setTabOverview }}" style="display:{{ ovDisplayOn }};text-align:left;background:#FF6533;color:#fff;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Overview</button>
 
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#8a8177;padding:6px 14px 6px;">Portfolio</div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#8a8177;padding:18px 14px 6px;">Portfolio</div>
       <button onClick="{{ setTabPortfolios }}" style="display:{{ pfDisplayOff }};text-align:left;background:none;color:#C9C0B6;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;" style-hover="background:#1E1A17;color:#fff;">Portfolios</button>
       <button onClick="{{ setTabPortfolios }}" style="display:{{ pfDisplayOn }};text-align:left;background:#FF6533;color:#fff;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Portfolios</button>
 
@@ -706,28 +526,18 @@
       <button onClick="{{ setTabTech }}" style="display:{{ techDisplayOff }};text-align:left;background:none;color:#C9C0B6;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;" style-hover="background:#1E1A17;color:#fff;">Technologies</button>
       <button onClick="{{ setTabTech }}" style="display:{{ techDisplayOn }};text-align:left;background:#FF6533;color:#fff;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Technologies</button>
 
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#8a8177;padding:18px 14px 6px;">Site content</div>
-      <button onClick="{{ setTabClients }}" style="display:{{ clientsDisplayOff }};text-align:left;background:none;color:#C9C0B6;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;" style-hover="background:#1E1A17;color:#fff;">Clients</button>
-      <button onClick="{{ setTabClients }}" style="display:{{ clientsDisplayOn }};text-align:left;background:#FF6533;color:#fff;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Clients</button>
-
-      <button onClick="{{ setTabServices }}" style="display:{{ servicesDisplayOff }};text-align:left;background:none;color:#C9C0B6;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;" style-hover="background:#1E1A17;color:#fff;">Services</button>
-      <button onClick="{{ setTabServices }}" style="display:{{ servicesDisplayOn }};text-align:left;background:#FF6533;color:#fff;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Services</button>
-
-      <button onClick="{{ setTabTestimonials }}" style="display:{{ testimonialsDisplayOff }};text-align:left;background:none;color:#C9C0B6;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;" style-hover="background:#1E1A17;color:#fff;">Testimonials</button>
-      <button onClick="{{ setTabTestimonials }}" style="display:{{ testimonialsDisplayOn }};text-align:left;background:#FF6533;color:#fff;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Testimonials</button>
+      <button onClick="{{ setTabMedia }}" style="display:{{ mediaDisplayOff }};text-align:left;background:none;color:#C9C0B6;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;" style-hover="background:#1E1A17;color:#fff;">Media</button>
+      <button onClick="{{ setTabMedia }}" style="display:{{ mediaDisplayOn }};text-align:left;background:#FF6533;color:#fff;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Media</button>
 
       <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#8a8177;padding:18px 14px 6px;">System</div>
       <button onClick="{{ setTabAdmins }}" style="display:{{ adminDisplayOff }};text-align:left;background:none;color:#C9C0B6;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;" style-hover="background:#1E1A17;color:#fff;">Admins</button>
       <button onClick="{{ setTabAdmins }}" style="display:{{ adminDisplayOn }};text-align:left;background:#FF6533;color:#fff;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Admins</button>
 
-      <button onClick="{{ setTabMedia }}" style="display:{{ mediaDisplayOff }};text-align:left;background:none;color:#C9C0B6;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;" style-hover="background:#1E1A17;color:#fff;">Media</button>
-      <button onClick="{{ setTabMedia }}" style="display:{{ mediaDisplayOn }};text-align:left;background:#FF6533;color:#fff;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Media</button>
-
       <button onClick="{{ setTabSettings }}" style="display:{{ setDisplayOff }};text-align:left;background:none;color:#C9C0B6;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;" style-hover="background:#1E1A17;color:#fff;">Settings</button>
       <button onClick="{{ setTabSettings }}" style="display:{{ setDisplayOn }};text-align:left;background:#FF6533;color:#fff;border:none;padding:11px 14px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Settings</button>
     </nav>
     <div style="margin-top:auto;display:flex;flex-direction:column;gap:4px;padding-top:20px;">
-      <span style="font-size:13.5px;color:#C9C0B6;cursor:pointer;padding:10px 14px;" onClick="{{ goToLanding }}">View live site</span>
+      <span style="font-size:13.5px;color:#C9C0B6;cursor:pointer;padding:10px 14px;" onClick="{{ goToHome }}">View live site</span>
       <span style="font-size:13.5px;color:#FF8A65;cursor:pointer;padding:10px 14px;" onClick="{{ logoutAdmin }}">Log out</span>
     </div>
   </aside>
@@ -991,6 +801,23 @@
       </div>
     </sc-if>
 
+    <sc-if value="{{ tabMedia }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:20px;">
+        <button onClick="{{ addMediaItem }}" style="background:#FF6533;color:#fff;border:none;padding:12px 22px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">+ Upload media</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;">
+        <sc-for list="{{ mediaItemsView }}" as="m" hint-placeholder-count="4">
+          <div style="background:#fff;border:1px solid #E8E2DB;border-radius:8px;overflow:hidden;">
+            <div style="position:relative;height:130px;">
+              <image-slot id="{{ m.slotId }}" shape="rect" placeholder="Drop image" style="width:100%;height:100%;"></image-slot>
+              <span onClick="{{ m.onRemove }}" style="position:absolute;top:6px;right:6px;background:rgba(21,18,15,0.75);color:#fff;width:22px;height:22px;border-radius:100px;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;z-index:5;">&#10005;</span>
+            </div>
+            <input type="text" value="{{ m.name }}" onChange="{{ m.onNameChange }}" style="width:100%;border:none;border-top:1px solid #F3EEE7;padding:10px 12px;font-size:13px;font-family:'Manrope',sans-serif;">
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
     <sc-if value="{{ tabAdmins }}" hint-placeholder-val="{{ false }}">
       <div style="background:#fff;border:1px solid #E8E2DB;border-radius:8px;padding:28px;">
         <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
@@ -1029,152 +856,11 @@
       </div>
     </sc-if>
 
-    <sc-if value="{{ tabClients }}" hint-placeholder-val="{{ false }}">
-      <div style="background:#fff;border:1px solid #E8E2DB;border-radius:8px;padding:28px;">
-        <p style="font-size:13px;color:#6B645C;margin:0 0 20px;">Client wordmarks shown in the "Recently trusted by" strip on the landing page.</p>
-        <div style="display:flex;gap:10px;margin-bottom:24px;">
-          <input type="text" value="{{ newClientName }}" onChange="{{ setNewClientName }}" placeholder="New client name" style="flex:1;padding:12px 14px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-          <button onClick="{{ addClient }}" style="background:#15120F;color:#fff;border:none;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Add</button>
-        </div>
-        <sc-for list="{{ clientsView }}" as="c" hint-placeholder-count="6">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-top:1px solid #F3EEE7;gap:12px;">
-            <sc-if value="{{ c.isEditing }}" hint-placeholder-val="{{ false }}">
-              <input type="text" value="{{ editingValueA }}" onChange="{{ setEditingValueA }}" style="flex:1;padding:9px 12px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-            </sc-if>
-            <sc-if value="{{ c.notEditing }}" hint-placeholder-val="{{ true }}">
-              <div style="font-size:14.5px;font-weight:600;flex:1;">{{ c.name }}</div>
-            </sc-if>
-            <div style="white-space:nowrap;">
-              <sc-if value="{{ c.isEditing }}" hint-placeholder-val="{{ false }}">
-                <span title="Save" onClick="{{ saveEdit }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#15120F;" style-hover="background:#F3EEE7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
-                <span title="Cancel" onClick="{{ cancelEdit }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#6B645C;" style-hover="background:#F3EEE7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="M6 6l12 12"></path></svg></span>
-              </sc-if>
-              <sc-if value="{{ c.confirming }}" hint-placeholder-val="{{ false }}">
-                <span title="Confirm delete" onClick="{{ confirmDeleteNow }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#D64545;" style-hover="background:#FBEAEA;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
-                <span title="Cancel" onClick="{{ cancelDelete }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#6B645C;" style-hover="background:#F3EEE7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="M6 6l12 12"></path></svg></span>
-              </sc-if>
-              <sc-if value="{{ c.showActions }}" hint-placeholder-val="{{ true }}">
-                <span title="Edit" onClick="{{ c.onEditStart }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#15120F;" style-hover="background:#F3EEE7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg></span>
-                <span title="Delete" onClick="{{ c.onDeleteAsk }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#D64545;" style-hover="background:#FBEAEA;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span>
-              </sc-if>
-            </div>
-          </div>
-        </sc-for>
-      </div>
-    </sc-if>
-
-    <sc-if value="{{ tabServices }}" hint-placeholder-val="{{ false }}">
-      <div style="background:#fff;border:1px solid #E8E2DB;border-radius:8px;padding:28px;">
-        <p style="font-size:13px;color:#6B645C;margin:0 0 20px;">Shown in the "What we do" section on the landing page, in this order.</p>
-        <div style="display:grid;grid-template-columns:1fr 1.4fr auto;gap:10px;margin-bottom:24px;">
-          <input type="text" value="{{ newServiceTitle }}" onChange="{{ setNewServiceTitle }}" placeholder="Service title" style="padding:12px 14px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-          <input type="text" value="{{ newServiceDescription }}" onChange="{{ setNewServiceDescription }}" placeholder="Short description" style="padding:12px 14px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-          <button onClick="{{ addService }}" style="background:#15120F;color:#fff;border:none;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Add</button>
-        </div>
-        <sc-for list="{{ servicesView }}" as="sv" hint-placeholder-count="4">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:16px 0;border-top:1px solid #F3EEE7;gap:16px;">
-            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:#FFE4D6;-webkit-text-stroke:1px #FF6533;font-size:14px;padding-top:2px;">{{ sv.orderLabel }}</div>
-            <sc-if value="{{ sv.isEditing }}" hint-placeholder-val="{{ false }}">
-              <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
-                <input type="text" value="{{ editingValueA }}" onChange="{{ setEditingValueA }}" style="padding:9px 12px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-                <input type="text" value="{{ editingValueB }}" onChange="{{ setEditingValueB }}" style="padding:9px 12px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-              </div>
-            </sc-if>
-            <sc-if value="{{ sv.notEditing }}" hint-placeholder-val="{{ true }}">
-              <div style="flex:1;">
-                <div style="font-size:14.5px;font-weight:700;margin-bottom:4px;">{{ sv.title }}</div>
-                <div style="font-size:13px;color:#6B645C;line-height:1.5;">{{ sv.description }}</div>
-              </div>
-            </sc-if>
-            <div style="white-space:nowrap;">
-              <sc-if value="{{ sv.isEditing }}" hint-placeholder-val="{{ false }}">
-                <span title="Save" onClick="{{ saveEdit }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#15120F;" style-hover="background:#F3EEE7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
-                <span title="Cancel" onClick="{{ cancelEdit }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#6B645C;" style-hover="background:#F3EEE7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="M6 6l12 12"></path></svg></span>
-              </sc-if>
-              <sc-if value="{{ sv.confirming }}" hint-placeholder-val="{{ false }}">
-                <span title="Confirm delete" onClick="{{ confirmDeleteNow }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#D64545;" style-hover="background:#FBEAEA;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
-                <span title="Cancel" onClick="{{ cancelDelete }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#6B645C;" style-hover="background:#F3EEE7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="M6 6l12 12"></path></svg></span>
-              </sc-if>
-              <sc-if value="{{ sv.showActions }}" hint-placeholder-val="{{ true }}">
-                <span title="Edit" onClick="{{ sv.onEditStart }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#15120F;" style-hover="background:#F3EEE7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg></span>
-                <span title="Delete" onClick="{{ sv.onDeleteAsk }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#D64545;" style-hover="background:#FBEAEA;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span>
-              </sc-if>
-            </div>
-          </div>
-        </sc-for>
-      </div>
-    </sc-if>
-
-    <sc-if value="{{ tabTestimonials }}" hint-placeholder-val="{{ false }}">
-      <div style="background:#fff;border:1px solid #E8E2DB;border-radius:8px;padding:28px;">
-        <p style="font-size:13px;color:#6B645C;margin:0 0 20px;">Shown in the Testimonials section on the landing page.</p>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">
-          <textarea value="{{ newTestimonialQuote }}" onChange="{{ setNewTestimonialQuote }}" rows="2" placeholder="Quote" style="padding:12px 14px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;resize:vertical;"></textarea>
-          <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;">
-            <input type="text" value="{{ newTestimonialAuthor }}" onChange="{{ setNewTestimonialAuthor }}" placeholder="Author name" style="padding:12px 14px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-            <input type="text" value="{{ newTestimonialRole }}" onChange="{{ setNewTestimonialRole }}" placeholder="Role, company" style="padding:12px 14px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-            <button onClick="{{ addTestimonial }}" style="background:#15120F;color:#fff;border:none;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">Add</button>
-          </div>
-        </div>
-        <sc-for list="{{ testimonialsView }}" as="t" hint-placeholder-count="3">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:16px 0;border-top:1px solid #F3EEE7;gap:16px;">
-            <sc-if value="{{ t.isEditing }}" hint-placeholder-val="{{ false }}">
-              <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
-                <textarea value="{{ editingValueA }}" onChange="{{ setEditingValueA }}" rows="2" style="padding:9px 12px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;resize:vertical;"></textarea>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                  <input type="text" value="{{ editingValueB }}" onChange="{{ setEditingValueB }}" placeholder="Author" style="padding:9px 12px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-                  <input type="text" value="{{ editingValueC }}" onChange="{{ setEditingValueC }}" placeholder="Role" style="padding:9px 12px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-                </div>
-              </div>
-            </sc-if>
-            <sc-if value="{{ t.notEditing }}" hint-placeholder-val="{{ true }}">
-              <div style="flex:1;">
-                <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;line-height:1.5;margin-bottom:8px;">"{{ t.quote }}"</div>
-                <div style="font-size:13px;font-weight:700;">{{ t.author }}</div>
-                <div style="font-size:12.5px;color:#6B645C;">{{ t.role }}</div>
-              </div>
-            </sc-if>
-            <div style="white-space:nowrap;">
-              <sc-if value="{{ t.isEditing }}" hint-placeholder-val="{{ false }}">
-                <span title="Save" onClick="{{ saveEdit }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#15120F;" style-hover="background:#F3EEE7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
-                <span title="Cancel" onClick="{{ cancelEdit }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#6B645C;" style-hover="background:#F3EEE7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="M6 6l12 12"></path></svg></span>
-              </sc-if>
-              <sc-if value="{{ t.confirming }}" hint-placeholder-val="{{ false }}">
-                <span title="Confirm delete" onClick="{{ confirmDeleteNow }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#D64545;" style-hover="background:#FBEAEA;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
-                <span title="Cancel" onClick="{{ cancelDelete }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#6B645C;" style-hover="background:#F3EEE7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="M6 6l12 12"></path></svg></span>
-              </sc-if>
-              <sc-if value="{{ t.showActions }}" hint-placeholder-val="{{ true }}">
-                <span title="Edit" onClick="{{ t.onEditStart }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#15120F;" style-hover="background:#F3EEE7;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg></span>
-                <span title="Delete" onClick="{{ t.onDeleteAsk }}" style="display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;cursor:pointer;color:#D64545;" style-hover="background:#FBEAEA;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span>
-              </sc-if>
-            </div>
-          </div>
-        </sc-for>
-      </div>
-    </sc-if>
-
-    <sc-if value="{{ tabMedia }}" hint-placeholder-val="{{ false }}">
-      <div style="display:flex;justify-content:flex-end;margin-bottom:20px;">
-        <button onClick="{{ addMediaItem }}" style="background:#FF6533;color:#fff;border:none;padding:12px 22px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;">+ Upload media</button>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;">
-        <sc-for list="{{ mediaItemsView }}" as="m" hint-placeholder-count="4">
-          <div style="background:#fff;border:1px solid #E8E2DB;border-radius:8px;overflow:hidden;">
-            <div style="position:relative;height:130px;">
-              <image-slot id="{{ m.slotId }}" shape="rect" placeholder="Drop image" style="width:100%;height:100%;"></image-slot>
-              <span onClick="{{ m.onRemove }}" style="position:absolute;top:6px;right:6px;background:rgba(21,18,15,0.75);color:#fff;width:22px;height:22px;border-radius:100px;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;z-index:5;">&#10005;</span>
-            </div>
-            <input type="text" value="{{ m.name }}" onChange="{{ m.onNameChange }}" style="width:100%;border:none;border-top:1px solid #F3EEE7;padding:10px 12px;font-size:13px;font-family:'Manrope',sans-serif;">
-          </div>
-        </sc-for>
-      </div>
-    </sc-if>
-
     <sc-if value="{{ tabSettings }}" hint-placeholder-val="{{ false }}">
-      <div style="display:flex;flex-direction:column;gap:20px;max-width:720px;">
+      <div style="display:flex;flex-direction:column;gap:20px;max-width:640px;">
         <div style="background:#fff;border:1px solid #E8E2DB;border-radius:8px;padding:28px;">
           <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;margin:0 0 6px;">Branding</h3>
-          <p style="font-size:13px;color:#6B645C;margin:0 0 18px;">Shown across the site header, footer, and admin sidebar.</p>
+          <p style="font-size:13px;color:#6B645C;margin:0 0 18px;">Shown in the site header and admin sidebar.</p>
           <div style="display:flex;gap:28px;flex-wrap:wrap;">
             <div>
               <div style="font-size:12.5px;font-weight:700;color:#6B645C;margin-bottom:8px;">Logo</div>
@@ -1195,44 +881,23 @@
               <input type="text" value="{{ settings.siteName }}" onChange="{{ setSiteName }}" style="width:100%;padding:11px 13px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
             </div>
             <div>
-              <label style="font-size:12.5px;font-weight:700;color:#6B645C;display:block;margin-bottom:6px;">Tagline</label>
+              <label style="font-size:12.5px;font-weight:700;color:#6B645C;display:block;margin-bottom:6px;">Intro subtitle</label>
               <input type="text" value="{{ settings.tagline }}" onChange="{{ setTagline }}" style="width:100%;padding:11px 13px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
             </div>
           </div>
         </div>
 
         <div style="background:#fff;border:1px solid #E8E2DB;border-radius:8px;padding:28px;">
-          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;margin:0 0 18px;">Contact info</h3>
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;margin:0 0 6px;">Company site link</h3>
+          <p style="font-size:13px;color:#6B645C;margin:0 0 18px;">The button in the header that sends visitors to your main company website.</p>
           <div style="display:flex;flex-direction:column;gap:14px;">
             <div>
-              <label style="font-size:12.5px;font-weight:700;color:#6B645C;display:block;margin-bottom:6px;">Email</label>
-              <input type="email" value="{{ settings.contactEmail }}" onChange="{{ setContactEmail }}" style="width:100%;padding:11px 13px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
+              <label style="font-size:12.5px;font-weight:700;color:#6B645C;display:block;margin-bottom:6px;">URL</label>
+              <input type="text" value="{{ settings.externalUrl }}" onChange="{{ setExternalUrl }}" style="width:100%;padding:11px 13px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
             </div>
             <div>
-              <label style="font-size:12.5px;font-weight:700;color:#6B645C;display:block;margin-bottom:6px;">Phone</label>
-              <input type="text" value="{{ settings.contactPhone }}" onChange="{{ setContactPhone }}" style="width:100%;padding:11px 13px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-            </div>
-            <div>
-              <label style="font-size:12.5px;font-weight:700;color:#6B645C;display:block;margin-bottom:6px;">Address</label>
-              <input type="text" value="{{ settings.address }}" onChange="{{ setAddress }}" style="width:100%;padding:11px 13px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-            </div>
-          </div>
-        </div>
-
-        <div style="background:#fff;border:1px solid #E8E2DB;border-radius:8px;padding:28px;">
-          <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;margin:0 0 18px;">Social links</h3>
-          <div style="display:flex;flex-direction:column;gap:14px;">
-            <div>
-              <label style="font-size:12.5px;font-weight:700;color:#6B645C;display:block;margin-bottom:6px;">Twitter / X</label>
-              <input type="text" value="{{ settings.twitter }}" onChange="{{ setTwitter }}" placeholder="https://x.com/yourstudio" style="width:100%;padding:11px 13px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-            </div>
-            <div>
-              <label style="font-size:12.5px;font-weight:700;color:#6B645C;display:block;margin-bottom:6px;">LinkedIn</label>
-              <input type="text" value="{{ settings.linkedin }}" onChange="{{ setLinkedin }}" placeholder="https://linkedin.com/company/yourstudio" style="width:100%;padding:11px 13px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
-            </div>
-            <div>
-              <label style="font-size:12.5px;font-weight:700;color:#6B645C;display:block;margin-bottom:6px;">Instagram</label>
-              <input type="text" value="{{ settings.instagram }}" onChange="{{ setInstagram }}" placeholder="https://instagram.com/yourstudio" style="width:100%;padding:11px 13px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
+              <label style="font-size:12.5px;font-weight:700;color:#6B645C;display:block;margin-bottom:6px;">Button label</label>
+              <input type="text" value="{{ settings.externalLabel }}" onChange="{{ setExternalLabel }}" style="width:100%;padding:11px 13px;border:1px solid #E8E2DB;border-radius:6px;font-size:14px;font-family:'Manrope',sans-serif;">
             </div>
           </div>
         </div>
@@ -1281,7 +946,7 @@
 </sc-if>
 
 <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
-  <div style="position:fixed;bottom:28px;right:28px;background:#15120F;color:#fff;padding:14px 22px;border-radius:8px;font-size:14px;font-weight:600;z-index:200;animation:toastIn .25s ease both;box-shadow:0 20px 40px -12px rgba(21,18,15,0.4);">{{ toast }}</div>
+  <div style="position:fixed;bottom:28px;right:28px;background:#15120F;color:#fff;padding:14px 22px;border-radius:8px;font-size:14px;font-weight:600;z-index:220;animation:toastIn .25s ease both;box-shadow:0 20px 40px -12px rgba(21,18,15,0.4);">{{ toast }}</div>
 </sc-if>
 
 </div>
@@ -1289,8 +954,8 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 const SEED_SETTINGS = {
-  siteName: "Maktech", tagline: "Grow infinitely.", contactEmail: "hello@maktech.studio",
-  contactPhone: "+1 (555) 013-8890", address: "Remote-first studio", twitter: "", linkedin: "", instagram: "",
+  siteName: "Maktech", tagline: "A living archive of the products, platforms, and interfaces we've shipped.",
+  externalUrl: "https://maktechgroup.com", externalLabel: "maktechgroup.com",
 };
 const SEED_CATEGORIES = [
   { id: 1, name: "Web Development" },
@@ -1321,89 +986,78 @@ const SEED_ADMINS = [
   { id: 2, name: "Sara Islam", email: "sara@maktech.studio", joined: "Jun 2024" },
   { id: 3, name: "Tanvir Ahmed", email: "tanvir@maktech.studio", joined: "Feb 2025" },
 ];
-const SEED_CLIENTS = [
-  { id: 1, name: "RetailNest" }, { id: 2, name: "Lumen Studios" }, { id: 3, name: "Marketly" },
-  { id: 4, name: "Fintrail" }, { id: 5, name: "Nimbus Health" }, { id: 6, name: "Verve Coffee" },
-];
-const SEED_SERVICES = [
-  { id: 1, title: "Web Application Development", description: "Laravel and React builds for dashboards, internal tools, and customer-facing platforms." },
-  { id: 2, title: "Backend & API Engineering", description: "REST APIs that power mobile apps, built for the load and security real products need." },
-  { id: 3, title: "Product & UI/UX Design", description: "Figma-led interface design, from research and flows to a polished, developer-ready system." },
-  { id: 4, title: "Brand Identity", description: "Logo, packaging, and visual systems for teams ready to look as good as they perform." },
-];
-const SEED_TESTIMONIALS = [
-  { id: 1, quote: "The team shipped a POS that our staff actually enjoy using, and our head office finally has real-time visibility.", author: "Meherun Nesa", role: "Operations Director, RetailNest Inc." },
-  { id: 2, quote: "They redesigned our onboarding and our activation numbers finally matched how good the app actually is.", author: "Leila Haddad", role: "Product Lead, Solace Wellness" },
-  { id: 3, quote: "Every bag, cup, and sign now feels like it belongs to the same brand, customers notice.", author: "Owen Marsh", role: "Owner, Verve Coffee Roasters" },
-];
 const SEED_PROJECTS = [
-  { id: 1, mediaBaseId: "p1", title: "Horizon POS", client: "RetailNest Inc.", category: "Web Development", type: "Client Work", status: "Published", scheduledDate: "", highlight: true, date: "Apr 2025", devUrl: "https://staging.horizonpos.example.com", clientUrl: "https://horizonpos.example.com", repoUrl: "", tags: ["Dashboard", "SaaS"], technologies: ["Laravel", "React", "MySQL", "Tailwind CSS"],
+  { id: 1, mediaBaseId: "p1", featuredSlotId: "p1-featured", title: "Horizon POS", client: "RetailNest Inc.", category: "Web Development", type: "Client Work", status: "Published", scheduledDate: "", highlight: true, date: "Apr 2025", devUrl: "https://staging.horizonpos.example.com", clientUrl: "https://horizonpos.example.com", repoUrl: "", tags: ["Dashboard", "SaaS"], technologies: ["Laravel", "React", "MySQL", "Tailwind CSS"],
     overview: "Horizon POS is a cloud point-of-sale system built for multi-branch retail chains, handling inventory, staff shifts, and live sales reporting from a single dashboard.",
     problem: "RetailNest was running five stores on spreadsheets and a legacy desktop till, with no way to see stock or sales across branches in real time.",
     metrics: [{ label: "Faster checkout", value: "38%" }, { label: "Monthly transactions", value: "12k+" }, { label: "Uptime", value: "99.9%" }],
     testimonialQuote: "The team shipped a POS that our staff actually enjoy using, and our head office finally has real-time visibility.", testimonialAuthor: "Meherun Nesa", testimonialRole: "Operations Director, RetailNest Inc.",
-    gallery: [], videos: [], files: [] },
-  { id: 2, mediaBaseId: "p2", title: "Lumen Booking", client: "Lumen Studios", category: "Web Development", type: "Client Work", status: "Published", scheduledDate: "", highlight: false, date: "Nov 2024", devUrl: "", clientUrl: "https://lumenbooking.example.com", repoUrl: "", tags: ["Booking System", "SaaS"], technologies: ["Laravel", "Vue.js", "PostgreSQL", "Tailwind CSS"],
+    gallery: [{ id: 1, slotId: "p1-gallery-1" }, { id: 2, slotId: "p1-gallery-2" }, { id: 3, slotId: "p1-gallery-3" }, { id: 4, slotId: "p1-gallery-4" }],
+    videos: [{ id: 1, url: "https://vimeo.com/example/horizon-pos-walkthrough", title: "Product walkthrough" }],
+    files: [{ id: 1, name: "Horizon POS - Case study one-pager.pdf", url: "https://example.com/files/horizon-pos-case-study.pdf" }] },
+  { id: 2, mediaBaseId: "p2", featuredSlotId: "p2-featured", title: "Lumen Booking", client: "Lumen Studios", category: "Web Development", type: "Client Work", status: "Published", scheduledDate: "", highlight: false, date: "Nov 2024", devUrl: "", clientUrl: "https://lumenbooking.example.com", repoUrl: "", tags: ["Booking System", "SaaS"], technologies: ["Laravel", "Vue.js", "PostgreSQL", "Tailwind CSS"],
     overview: "A booking and scheduling platform for photography studios, coordinating client sessions, payments, and equipment across three locations.",
     problem: "Lumen Studios lost bookings to double-scheduling and manual invoice chasing across email and phone.",
     metrics: [{ label: "No-shows reduced", value: "44%" }, { label: "Bookings/month", value: "900+" }, { label: "Setup time", value: "6 weeks" }],
     testimonialQuote: "Our booking calendar used to be three separate spreadsheets. Now it just works, and clients book themselves.", testimonialAuthor: "Rafael Costa", testimonialRole: "Founder, Lumen Studios",
     gallery: [], videos: [], files: [] },
-  { id: 3, mediaBaseId: "p3", title: "Marketly Storefront", client: "Marketly Co.", category: "Web Development", type: "Client Work", status: "Published", scheduledDate: "", highlight: false, date: "Feb 2026", devUrl: "https://dev.marketly.example.com", clientUrl: "https://marketly.example.com", repoUrl: "", tags: ["E-commerce", "Marketplace"], technologies: ["Next.js", "React", "Tailwind CSS", "MySQL"],
+  { id: 3, mediaBaseId: "p3", featuredSlotId: "p3-featured", title: "Marketly Storefront", client: "Marketly Co.", category: "Web Development", type: "Client Work", status: "Published", scheduledDate: "", highlight: false, date: "Feb 2026", devUrl: "https://dev.marketly.example.com", clientUrl: "https://marketly.example.com", repoUrl: "", tags: ["E-commerce", "Marketplace"], technologies: ["Next.js", "React", "Tailwind CSS", "MySQL"],
     overview: "A headless storefront for a multi-vendor marketplace, built for speed on mobile networks across Southeast Asia.",
     problem: "Marketly's existing storefront took over 6 seconds to load on 3G, driving high bounce rates on mobile checkout.",
     metrics: [{ label: "Load time", value: "0.9s" }, { label: "Conversion lift", value: "27%" }, { label: "Vendors onboarded", value: "340+" }],
     testimonialQuote: "Page speed alone paid for the rebuild within the first quarter. The checkout flow finally matches the quality of our products.", testimonialAuthor: "Priya Nair", testimonialRole: "Head of E-commerce, Marketly Co.",
-    gallery: [], videos: [], files: [] },
-  { id: 4, mediaBaseId: "p4", title: "Craftline Portfolio Site", client: "Internal", category: "Web Development", type: "Personal Project", status: "Published", scheduledDate: "", highlight: false, date: "Aug 2024", devUrl: "", clientUrl: "", repoUrl: "https://github.com/maktech/craftline", tags: ["Portfolio Site", "Landing Page"], technologies: ["React", "Tailwind CSS"],
+    gallery: [{ id: 1, slotId: "p3-gallery-1" }, { id: 2, slotId: "p3-gallery-2" }, { id: 3, slotId: "p3-gallery-3" }], videos: [], files: [] },
+  { id: 4, mediaBaseId: "p4", featuredSlotId: "p4-featured", title: "Craftline Portfolio Site", client: "Internal", category: "Web Development", type: "Personal Project", status: "Published", scheduledDate: "", highlight: false, date: "Aug 2024", devUrl: "", clientUrl: "", repoUrl: "https://github.com/maktech/craftline", tags: ["Portfolio Site", "Landing Page"], technologies: ["React", "Tailwind CSS"],
     overview: "An open-source portfolio template we built and released for freelance designers and developers to fork and customize.",
     problem: "Freelancers on our team kept rebuilding the same personal site structure from scratch for every client pitch.",
     metrics: [{ label: "GitHub stars", value: "1.2k" }, { label: "Forks", value: "310" }, { label: "Build time", value: "3 weeks" }],
     testimonialQuote: "", testimonialAuthor: "", testimonialRole: "",
     gallery: [], videos: [], files: [] },
-  { id: 5, mediaBaseId: "p5", title: "Fintrail Wallet API", client: "Fintrail", category: "Mobile & Backend", type: "Client Work", status: "Published", scheduledDate: "", highlight: false, date: "Jan 2025", devUrl: "https://api-staging.fintrail.example.com", clientUrl: "", repoUrl: "", tags: ["Fintech", "Mobile App"], technologies: ["Laravel", "REST API", "MySQL"],
+  { id: 5, mediaBaseId: "p5", featuredSlotId: "p5-featured", title: "Fintrail Wallet API", client: "Fintrail", category: "Mobile & Backend", type: "Client Work", status: "Published", scheduledDate: "", highlight: false, date: "Jan 2025", devUrl: "https://api-staging.fintrail.example.com", clientUrl: "", repoUrl: "", tags: ["Fintech", "Mobile App"], technologies: ["Laravel", "REST API", "MySQL"],
     overview: "A REST API powering a digital wallet mobile app, handling KYC verification, transfers, and merchant payouts.",
     problem: "Fintrail needed a compliant, well-documented backend their mobile team could build against without waiting on us for every change.",
     metrics: [{ label: "API uptime", value: "99.95%" }, { label: "Avg response", value: "120ms" }, { label: "Endpoints shipped", value: "48" }],
     testimonialQuote: "Clean documentation, fast responses, zero surprises during our security audit.", testimonialAuthor: "Daniyar Suleimenov", testimonialRole: "CTO, Fintrail",
     gallery: [], videos: [], files: [] },
-  { id: 6, mediaBaseId: "p6", title: "Nimbus Health Backend", client: "Nimbus Health", category: "Mobile & Backend", type: "Client Work", status: "Published", scheduledDate: "", highlight: true, date: "Sep 2025", devUrl: "", clientUrl: "", repoUrl: "", tags: ["Healthcare", "Mobile App"], technologies: ["Node.js", "Express.js", "MongoDB"],
+  { id: 6, mediaBaseId: "p6", featuredSlotId: "p6-featured", title: "Nimbus Health Backend", client: "Nimbus Health", category: "Mobile & Backend", type: "Client Work", status: "Published", scheduledDate: "", highlight: true, date: "Sep 2025", devUrl: "", clientUrl: "", repoUrl: "", tags: ["Healthcare", "Mobile App"], technologies: ["Node.js", "Express.js", "MongoDB"],
     overview: "Backend services for a telehealth app connecting patients with clinicians, including appointment sync and secure messaging.",
     problem: "Nimbus's prototype backend couldn't handle concurrent video-call scheduling without double-booking clinicians.",
     metrics: [{ label: "Concurrent sessions", value: "2,500" }, { label: "Scheduling errors", value: "0" }, { label: "Latency", value: "<150ms" }],
     testimonialQuote: "They understood healthcare compliance from day one, that saved us months.", testimonialAuthor: "Dr. Amara Chen", testimonialRole: "Co-founder, Nimbus Health",
-    gallery: [], videos: [], files: [] },
-  { id: 7, mediaBaseId: "p7", title: "Fleetwise Tracker API", client: "Fleetwise Logistics", category: "Mobile & Backend", type: "Client Work", status: "Scheduled", scheduledDate: "Sep 15, 2026", highlight: false, date: "Jun 2026", devUrl: "https://api-dev.fleetwise.example.com", clientUrl: "", repoUrl: "", tags: ["Logistics", "Mobile App"], technologies: ["Laravel", "REST API", "PostgreSQL"],
+    gallery: [{ id: 1, slotId: "p6-gallery-1" }, { id: 2, slotId: "p6-gallery-2" }],
+    videos: [{ id: 1, url: "https://vimeo.com/example/nimbus-health-demo", title: "Telehealth session demo" }], files: [] },
+  { id: 7, mediaBaseId: "p7", featuredSlotId: "p7-featured", title: "Fleetwise Tracker API", client: "Fleetwise Logistics", category: "Mobile & Backend", type: "Client Work", status: "Scheduled", scheduledDate: "Sep 15, 2026", highlight: false, date: "Jun 2026", devUrl: "https://api-dev.fleetwise.example.com", clientUrl: "", repoUrl: "", tags: ["Logistics", "Mobile App"], technologies: ["Laravel", "REST API", "PostgreSQL"],
     overview: "A fleet-tracking REST API delivering live GPS positions, route history, and driver performance scoring to a mobile dispatch app.",
     problem: "Fleetwise dispatchers had no live visibility into where trucks were, causing missed delivery windows.",
     metrics: [{ label: "Delivery windows hit", value: "92%" }, { label: "Vehicles tracked", value: "180" }, { label: "Data points/day", value: "4.6M" }],
     testimonialQuote: "", testimonialAuthor: "", testimonialRole: "",
     gallery: [], videos: [], files: [] },
-  { id: 8, mediaBaseId: "p8", title: "Solace Wellness App UI", client: "Solace Wellness", category: "UI/UX Design", type: "Client Work", status: "Published", scheduledDate: "", highlight: true, date: "Mar 2025", devUrl: "", clientUrl: "", repoUrl: "", tags: ["Mobile App", "Healthcare"], technologies: ["Figma"],
+  { id: 8, mediaBaseId: "p8", featuredSlotId: "p8-featured", title: "Solace Wellness App UI", client: "Solace Wellness", category: "UI/UX Design", type: "Client Work", status: "Published", scheduledDate: "", highlight: true, date: "Mar 2025", devUrl: "", clientUrl: "", repoUrl: "", tags: ["Mobile App", "Healthcare"], technologies: ["Figma"],
     overview: "Full UI/UX design for a meditation and sleep app, including onboarding flow, session player, and progress tracking screens.",
     problem: "Solace's early prototype tested well on content but users dropped off during a confusing five-step onboarding.",
     metrics: [{ label: "Onboarding completion", value: "+61%" }, { label: "Screens designed", value: "54" }, { label: "App Store rating", value: "4.8" }],
     testimonialQuote: "They redesigned our onboarding and our activation numbers finally matched how good the app actually is.", testimonialAuthor: "Leila Haddad", testimonialRole: "Product Lead, Solace Wellness",
-    gallery: [], videos: [], files: [] },
-  { id: 9, mediaBaseId: "p9", title: "Beacon SaaS Landing", client: "Beacon Analytics", category: "UI/UX Design", type: "Concept", status: "Published", scheduledDate: "", highlight: false, date: "Dec 2025", devUrl: "", clientUrl: "", repoUrl: "", tags: ["Landing Page", "SaaS"], technologies: ["Figma", "Canva"],
+    gallery: [{ id: 1, slotId: "p8-gallery-1" }, { id: 2, slotId: "p8-gallery-2" }, { id: 3, slotId: "p8-gallery-3" }, { id: 4, slotId: "p8-gallery-4" }], videos: [], files: [] },
+  { id: 9, mediaBaseId: "p9", featuredSlotId: "p9-featured", title: "Beacon SaaS Landing", client: "Beacon Analytics", category: "UI/UX Design", type: "Concept", status: "Published", scheduledDate: "", highlight: false, date: "Dec 2025", devUrl: "", clientUrl: "", repoUrl: "", tags: ["Landing Page", "SaaS"], technologies: ["Figma", "Canva"],
     overview: "A concept landing page and marketing site system exploring how a data-analytics SaaS could present pricing and product depth without overwhelming visitors.",
     problem: "Beacon's existing site buried its product story under dense feature lists with no clear narrative.",
     metrics: [{ label: "Design variations", value: "6" }, { label: "Sections mapped", value: "14" }, { label: "Turnaround", value: "2 weeks" }],
     testimonialQuote: "", testimonialAuthor: "", testimonialRole: "",
     gallery: [], videos: [], files: [] },
-  { id: 10, mediaBaseId: "p10", title: "Orbit CRM Dashboard UI", client: "Orbit Labs", category: "UI/UX Design", type: "Concept", status: "Published", scheduledDate: "", highlight: false, date: "May 2024", devUrl: "", clientUrl: "", repoUrl: "", tags: ["Dashboard", "SaaS"], technologies: ["Figma"],
+  { id: 10, mediaBaseId: "p10", featuredSlotId: "p10-featured", title: "Orbit CRM Dashboard UI", client: "Orbit Labs", category: "UI/UX Design", type: "Concept", status: "Published", scheduledDate: "", highlight: false, date: "May 2024", devUrl: "", clientUrl: "", repoUrl: "", tags: ["Dashboard", "SaaS"], technologies: ["Figma"],
     overview: "A concept redesign of an internal CRM dashboard focused on reducing visual noise for sales teams managing high pipeline volumes.",
     problem: "Orbit's sales reps were missing follow-ups because the dashboard surfaced everything with equal visual weight.",
     metrics: [{ label: "Click depth reduced", value: "3 to 1" }, { label: "Widgets redesigned", value: "22" }, { label: "Prototype screens", value: "31" }],
     testimonialQuote: "", testimonialAuthor: "", testimonialRole: "",
     gallery: [], videos: [], files: [] },
-  { id: 11, mediaBaseId: "p11", title: "Verve Brand Identity", client: "Verve Coffee Roasters", category: "Branding", type: "Client Work", status: "Published", scheduledDate: "", highlight: true, date: "Jul 2025", devUrl: "", clientUrl: "", repoUrl: "", tags: ["Brand Identity", "Print Design"], technologies: ["Figma", "Canva"],
+  { id: 11, mediaBaseId: "p11", featuredSlotId: "p11-featured", title: "Verve Brand Identity", client: "Verve Coffee Roasters", category: "Branding", type: "Client Work", status: "Published", scheduledDate: "", highlight: true, date: "Jul 2025", devUrl: "", clientUrl: "", repoUrl: "", tags: ["Brand Identity", "Print Design"], technologies: ["Figma", "Canva"],
     overview: "A full identity system for a specialty coffee roaster, spanning logo, packaging, signage, and social templates.",
     problem: "Verve was opening a second location and needed a cohesive identity that could scale across packaging and physical retail.",
     metrics: [{ label: "Touchpoints designed", value: "26" }, { label: "Packaging SKUs", value: "12" }, { label: "Brand recall lift", value: "+33%" }],
     testimonialQuote: "Every bag, cup, and sign now feels like it belongs to the same brand, customers notice.", testimonialAuthor: "Owen Marsh", testimonialRole: "Owner, Verve Coffee Roasters",
-    gallery: [], videos: [], files: [] },
-  { id: 12, mediaBaseId: "p12", title: "Nomad Coffee Co. Branding", client: "Nomad Coffee Co.", category: "Branding", type: "Client Work", status: "Draft", scheduledDate: "", highlight: false, date: "Jul 2026", devUrl: "", clientUrl: "", repoUrl: "", tags: ["Brand Identity", "Print Design"], technologies: ["Figma", "Canva"],
+    gallery: [{ id: 1, slotId: "p11-gallery-1" }, { id: 2, slotId: "p11-gallery-2" }, { id: 3, slotId: "p11-gallery-3" }],
+    videos: [], files: [{ id: 1, name: "Verve Brand Guidelines.pdf", url: "https://example.com/files/verve-brand-guidelines.pdf" }, { id: 2, name: "Packaging die-lines.zip", url: "https://example.com/files/verve-dielines.zip" }] },
+  { id: 12, mediaBaseId: "p12", featuredSlotId: "p12-featured", title: "Nomad Coffee Co. Branding", client: "Nomad Coffee Co.", category: "Branding", type: "Client Work", status: "Draft", scheduledDate: "", highlight: false, date: "Jul 2026", devUrl: "", clientUrl: "", repoUrl: "", tags: ["Brand Identity", "Print Design"], technologies: ["Figma", "Canva"],
     overview: "An in-progress identity refresh for a growing coffee subscription brand, including new mark, typography system, and box packaging.",
     problem: "Nomad's original DIY logo no longer matched the premium price point of their subscription boxes.",
     metrics: [{ label: "Concepts explored", value: "4" }, { label: "Packaging mockups", value: "9" }, { label: "Status", value: "In review" }],
@@ -1413,23 +1067,21 @@ const SEED_PROJECTS = [
 
 class Component extends DCLogic {
   state = {
-    route: "landing", selectedProjectId: null, adminTab: "overview", authed: false,
+    route: "home", selectedProjectId: null, adminTab: "overview", authed: false,
     loginEmail: "", loginPassword: "", loginError: "",
-    mobileNavOpen: false, viewportWidth: (typeof window !== "undefined" ? window.innerWidth : 1280),
     search: "", filterCategory: "All", filterType: "All",
+    visibleCount: 9, isLoadingMore: false,
     projects: SEED_PROJECTS, categories: SEED_CATEGORIES, types: SEED_TYPES, tags: SEED_TAGS, technologies: SEED_TECH, admins: SEED_ADMINS,
-    clients: SEED_CLIENTS, services: SEED_SERVICES, testimonials: SEED_TESTIMONIALS,
-    settings: SEED_SETTINGS, mediaItems: [], mediaPicker: null, portfolioViewTab: "featured",
+    settings: SEED_SETTINGS, mediaItems: [], mediaPicker: null,
     newCategoryName: "", newTypeName: "", newTagName: "", newTechName: "", newAdminName: "", newAdminEmail: "",
-    newClientName: "", newServiceTitle: "", newServiceDescription: "", newTestimonialQuote: "", newTestimonialAuthor: "", newTestimonialRole: "",
-    editingKind: null, editingId: null, editingValueA: "", editingValueB: "", editingValueC: "",
-    confirmDelete: null, toast: null,
+    editingKind: null, editingId: null, editingValueA: "", editingValueB: "",
+    confirmDelete: null, toast: null, lightbox: null,
     editorForm: null, editorMode: "add", editorProjectId: null, urlTab: "dev",
   };
 
   componentDidMount() {
     try {
-      const raw = localStorage.getItem("maktech_data_v3");
+      const raw = localStorage.getItem("maktech_data_v4");
       if (raw) {
         const d = JSON.parse(raw);
         const norm = (p) => Object.assign({}, p, {
@@ -1446,25 +1098,20 @@ class Component extends DCLogic {
           admins: d.admins || this.state.admins,
           settings: d.settings || this.state.settings,
           mediaItems: d.mediaItems || this.state.mediaItems,
-          clients: d.clients || this.state.clients,
-          services: d.services || this.state.services,
-          testimonials: d.testimonials || this.state.testimonials,
         });
       }
     } catch (e) {}
-    this._onResize = () => this.setState({ viewportWidth: window.innerWidth });
-    window.addEventListener("resize", this._onResize);
   }
   componentWillUnmount() {
-    if (this._onResize) window.removeEventListener("resize", this._onResize);
+    if (this._observer) this._observer.disconnect();
   }
 
   persist = () => {
     try {
-      localStorage.setItem("maktech_data_v3", JSON.stringify({
+      localStorage.setItem("maktech_data_v4", JSON.stringify({
         projects: this.state.projects, categories: this.state.categories, types: this.state.types,
         tags: this.state.tags, technologies: this.state.technologies, admins: this.state.admins, settings: this.state.settings,
-        mediaItems: this.state.mediaItems, clients: this.state.clients, services: this.state.services, testimonials: this.state.testimonials,
+        mediaItems: this.state.mediaItems,
       }));
     } catch (e) {}
   };
@@ -1476,16 +1123,32 @@ class Component extends DCLogic {
   };
 
   stopPropagation = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
-  goTo = (route) => { this.setState({ route, mobileNavOpen: false }); if (typeof window !== "undefined") window.scrollTo(0, 0); };
-  openProject = (id) => { this.setState({ route: "detail", selectedProjectId: id, mobileNavOpen: false }); if (typeof window !== "undefined") window.scrollTo(0, 0); };
-  toggleMobileNav = () => this.setState((s) => ({ mobileNavOpen: !s.mobileNavOpen }));
-  goToLanding = () => this.goTo("landing");
-  goToPortfolios = () => this.goTo("portfolios");
+  goTo = (route) => { this.setState({ route }); if (typeof window !== "undefined") window.scrollTo(0, 0); };
+  goToHome = () => this.goTo("home");
   goToAdminLogin = () => this.goTo("admin-login");
+  openProject = (id) => { this.setState({ route: "detail", selectedProjectId: id }); if (typeof window !== "undefined") window.scrollTo(0, 0); };
+  openLightbox = (images, index) => this.setState({ lightbox: { images, index } });
+  closeLightbox = () => this.setState({ lightbox: null });
+  lightboxPrev = () => this.setState((s) => ({ lightbox: Object.assign({}, s.lightbox, { index: (s.lightbox.index - 1 + s.lightbox.images.length) % s.lightbox.images.length }) }));
+  lightboxNext = () => this.setState((s) => ({ lightbox: Object.assign({}, s.lightbox, { index: (s.lightbox.index + 1) % s.lightbox.images.length }) }));
 
-  setSearch = (e) => this.setState({ search: e.target.value });
-  setFilterCategory = (name) => this.setState({ filterCategory: name });
-  setFilterType = (name) => this.setState({ filterType: name });
+  setSentinelRef = (el) => {
+    if (this._observer) { this._observer.disconnect(); this._observer = null; }
+    if (!el) return;
+    this._observer = new IntersectionObserver((entries) => {
+      if (entries[0] && entries[0].isIntersecting) this.loadMore();
+    }, { rootMargin: "500px" });
+    this._observer.observe(el);
+  };
+  loadMore = () => {
+    if (this.state.isLoadingMore) return;
+    this.setState({ isLoadingMore: true });
+    setTimeout(() => { this.setState((s) => ({ visibleCount: s.visibleCount + 6, isLoadingMore: false })); }, 400);
+  };
+
+  setSearch = (e) => this.setState({ search: e.target.value, visibleCount: 9 });
+  setFilterCategory = (name) => this.setState({ filterCategory: name, visibleCount: 9 });
+  setFilterType = (name) => this.setState({ filterType: name, visibleCount: 9 });
 
   setLoginEmail = (e) => this.setState({ loginEmail: e.target.value, loginError: "" });
   setLoginPassword = (e) => this.setState({ loginPassword: e.target.value, loginError: "" });
@@ -1495,7 +1158,7 @@ class Component extends DCLogic {
     if (!loginEmail.trim() || !loginPassword.trim()) { this.setState({ loginError: "Enter both email and password to continue." }); return; }
     this.setState({ authed: true, route: "admin", adminTab: "overview", loginError: "" });
   };
-  logoutAdmin = () => this.setState({ authed: false, route: "landing", loginEmail: "", loginPassword: "" });
+  logoutAdmin = () => this.setState({ authed: false, route: "home", loginEmail: "", loginPassword: "" });
 
   setAdminTab = (tab) => this.setState({ adminTab: tab, editingKind: null, editingId: null, confirmDelete: null });
   setTabOverview = () => this.setAdminTab("overview");
@@ -1507,13 +1170,68 @@ class Component extends DCLogic {
   setTabAdmins = () => this.setAdminTab("admins");
   setTabSettings = () => this.setAdminTab("settings");
   setTabMedia = () => this.setAdminTab("media");
-  setTabClients = () => this.setAdminTab("clients");
-  setTabServices = () => this.setAdminTab("services");
-  setTabTestimonials = () => this.setAdminTab("testimonials");
-  setPortfolioViewFeatured = () => this.setState({ portfolioViewTab: "featured" });
-  setPortfolioViewAll = () => this.setState({ portfolioViewTab: "all" });
   toggleProjectHighlight = (id) => { this.setState({ projects: this.state.projects.map((p) => (p.id === id ? Object.assign({}, p, { highlight: !p.highlight }) : p)) }, this.persist); this.showToast("Updated"); };
 
+  nextId = (arr) => (arr.length ? Math.max.apply(null, arr.map((x) => x.id)) + 1 : 1);
+
+  setNewCategoryName = (e) => this.setState({ newCategoryName: e.target.value });
+  setNewTypeName = (e) => this.setState({ newTypeName: e.target.value });
+  setNewTagName = (e) => this.setState({ newTagName: e.target.value });
+  setNewTechName = (e) => this.setState({ newTechName: e.target.value });
+  setNewAdminName = (e) => this.setState({ newAdminName: e.target.value });
+  setNewAdminEmail = (e) => this.setState({ newAdminEmail: e.target.value });
+
+  addCategory = () => { const name = this.state.newCategoryName.trim(); if (!name) return; this.setState({ categories: this.state.categories.concat([{ id: this.nextId(this.state.categories), name }]), newCategoryName: "" }, this.persist); this.showToast("Category added"); };
+  addType = () => { const name = this.state.newTypeName.trim(); if (!name) return; this.setState({ types: this.state.types.concat([{ id: this.nextId(this.state.types), name }]), newTypeName: "" }, this.persist); this.showToast("Type added"); };
+  addTag = () => { const name = this.state.newTagName.trim(); if (!name) return; this.setState({ tags: this.state.tags.concat([{ id: this.nextId(this.state.tags), name }]), newTagName: "" }, this.persist); this.showToast("Tag added"); };
+  addTech = () => { const name = this.state.newTechName.trim(); if (!name) return; this.setState({ technologies: this.state.technologies.concat([{ id: this.nextId(this.state.technologies), name }]), newTechName: "" }, this.persist); this.showToast("Technology added"); };
+  addAdmin = () => {
+    const name = this.state.newAdminName.trim(); const email = this.state.newAdminEmail.trim();
+    if (!name || !email) return;
+    const joined = new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" });
+    this.setState({ admins: this.state.admins.concat([{ id: this.nextId(this.state.admins), name, email, joined }]), newAdminName: "", newAdminEmail: "" }, this.persist);
+    this.showToast("Admin added");
+  };
+
+  startEdit = (kind, item) => this.setState({ editingKind: kind, editingId: item.id, editingValueA: item.name || "", editingValueB: item.email || "" });
+  cancelEdit = () => this.setState({ editingKind: null, editingId: null, editingValueA: "", editingValueB: "" });
+  setEditingValueA = (e) => this.setState({ editingValueA: e.target.value });
+  setEditingValueB = (e) => this.setState({ editingValueB: e.target.value });
+  saveEdit = () => {
+    const { editingKind, editingId, editingValueA, editingValueB } = this.state;
+    if (!editingKind) return;
+    const rename = (list) => list.map((it) => (it.id === editingId ? Object.assign({}, it, { name: editingValueA.trim() || it.name }) : it));
+    if (editingKind === "category") this.setState({ categories: rename(this.state.categories) }, this.persist);
+    else if (editingKind === "type") this.setState({ types: rename(this.state.types) }, this.persist);
+    else if (editingKind === "tag") this.setState({ tags: rename(this.state.tags) }, this.persist);
+    else if (editingKind === "technology") this.setState({ technologies: rename(this.state.technologies) }, this.persist);
+    else if (editingKind === "admin") this.setState({ admins: this.state.admins.map((a) => (a.id === editingId ? Object.assign({}, a, { name: editingValueA.trim() || a.name, email: editingValueB.trim() || a.email }) : a)) }, this.persist);
+    this.showToast("Saved");
+    this.cancelEdit();
+  };
+
+  askDelete = (kind, id) => this.setState({ confirmDelete: { kind, id } });
+  cancelDelete = () => this.setState({ confirmDelete: null });
+  confirmDeleteNow = () => {
+    const cd = this.state.confirmDelete; if (!cd) return;
+    const { kind, id } = cd;
+    if (kind === "category") this.setState({ categories: this.state.categories.filter((c) => c.id !== id) }, this.persist);
+    else if (kind === "type") this.setState({ types: this.state.types.filter((c) => c.id !== id) }, this.persist);
+    else if (kind === "tag") this.setState({ tags: this.state.tags.filter((c) => c.id !== id) }, this.persist);
+    else if (kind === "technology") this.setState({ technologies: this.state.technologies.filter((c) => c.id !== id) }, this.persist);
+    else if (kind === "admin") this.setState({ admins: this.state.admins.filter((c) => c.id !== id) }, this.persist);
+    else if (kind === "project") this.setState({ projects: this.state.projects.filter((c) => c.id !== id) }, this.persist);
+    this.showToast("Deleted");
+    this.setState({ confirmDelete: null });
+  };
+
+  setSettingsField = (field, value) => this.setState((s) => ({ settings: Object.assign({}, s.settings, { [field]: value }) }), this.persist);
+  setSiteName = (e) => this.setSettingsField("siteName", e.target.value);
+  setTagline = (e) => this.setSettingsField("tagline", e.target.value);
+  setExternalUrl = (e) => this.setSettingsField("externalUrl", e.target.value);
+  setExternalLabel = (e) => this.setSettingsField("externalLabel", e.target.value);
+
+  setTabMediaOpen = () => this.setAdminTab("media");
   nextMediaId = () => (this.state.mediaItems.length ? Math.max.apply(null, this.state.mediaItems.map((m) => m.id)) + 1 : 1);
   addMediaItem = () => {
     const id = this.nextMediaId();
@@ -1529,96 +1247,6 @@ class Component extends DCLogic {
     this.setState((s) => ({ editorForm: Object.assign({}, s.editorForm, { gallery: s.editorForm.gallery.concat([{ id: Date.now() + Math.random(), slotId: item.slotId }]) }) }));
     this.closeMediaPicker();
   };
-  clearFeaturedMedia = () => this.setEditorField("featuredSlotId", this.state.editorForm.mediaBaseId + "-featured");
-
-  nextId = (arr) => (arr.length ? Math.max.apply(null, arr.map((x) => x.id)) + 1 : 1);
-
-  setNewCategoryName = (e) => this.setState({ newCategoryName: e.target.value });
-  setNewTypeName = (e) => this.setState({ newTypeName: e.target.value });
-  setNewTagName = (e) => this.setState({ newTagName: e.target.value });
-  setNewTechName = (e) => this.setState({ newTechName: e.target.value });
-  setNewAdminName = (e) => this.setState({ newAdminName: e.target.value });
-  setNewAdminEmail = (e) => this.setState({ newAdminEmail: e.target.value });
-  setNewClientName = (e) => this.setState({ newClientName: e.target.value });
-  setNewServiceTitle = (e) => this.setState({ newServiceTitle: e.target.value });
-  setNewServiceDescription = (e) => this.setState({ newServiceDescription: e.target.value });
-  setNewTestimonialQuote = (e) => this.setState({ newTestimonialQuote: e.target.value });
-  setNewTestimonialAuthor = (e) => this.setState({ newTestimonialAuthor: e.target.value });
-  setNewTestimonialRole = (e) => this.setState({ newTestimonialRole: e.target.value });
-
-  addCategory = () => { const name = this.state.newCategoryName.trim(); if (!name) return; this.setState({ categories: this.state.categories.concat([{ id: this.nextId(this.state.categories), name }]), newCategoryName: "" }, this.persist); this.showToast("Category added"); };
-  addType = () => { const name = this.state.newTypeName.trim(); if (!name) return; this.setState({ types: this.state.types.concat([{ id: this.nextId(this.state.types), name }]), newTypeName: "" }, this.persist); this.showToast("Type added"); };
-  addTag = () => { const name = this.state.newTagName.trim(); if (!name) return; this.setState({ tags: this.state.tags.concat([{ id: this.nextId(this.state.tags), name }]), newTagName: "" }, this.persist); this.showToast("Tag added"); };
-  addTech = () => { const name = this.state.newTechName.trim(); if (!name) return; this.setState({ technologies: this.state.technologies.concat([{ id: this.nextId(this.state.technologies), name }]), newTechName: "" }, this.persist); this.showToast("Technology added"); };
-  addAdmin = () => {
-    const name = this.state.newAdminName.trim(); const email = this.state.newAdminEmail.trim();
-    if (!name || !email) return;
-    const joined = new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" });
-    this.setState({ admins: this.state.admins.concat([{ id: this.nextId(this.state.admins), name, email, joined }]), newAdminName: "", newAdminEmail: "" }, this.persist);
-    this.showToast("Admin added");
-  };
-  addClient = () => { const name = this.state.newClientName.trim(); if (!name) return; this.setState({ clients: this.state.clients.concat([{ id: this.nextId(this.state.clients), name }]), newClientName: "" }, this.persist); this.showToast("Client added"); };
-  addService = () => {
-    const title = this.state.newServiceTitle.trim(); const description = this.state.newServiceDescription.trim();
-    if (!title) return;
-    this.setState({ services: this.state.services.concat([{ id: this.nextId(this.state.services), title, description }]), newServiceTitle: "", newServiceDescription: "" }, this.persist);
-    this.showToast("Service added");
-  };
-  addTestimonial = () => {
-    const quote = this.state.newTestimonialQuote.trim(); const author = this.state.newTestimonialAuthor.trim(); const role = this.state.newTestimonialRole.trim();
-    if (!quote || !author) return;
-    this.setState({ testimonials: this.state.testimonials.concat([{ id: this.nextId(this.state.testimonials), quote, author, role }]), newTestimonialQuote: "", newTestimonialAuthor: "", newTestimonialRole: "" }, this.persist);
-    this.showToast("Testimonial added");
-  };
-
-  startEdit = (kind, item) => this.setState({ editingKind: kind, editingId: item.id, editingValueA: item.name || "", editingValueB: item.email || "", editingValueC: item.role || "" });
-  cancelEdit = () => this.setState({ editingKind: null, editingId: null, editingValueA: "", editingValueB: "", editingValueC: "" });
-  setEditingValueA = (e) => this.setState({ editingValueA: e.target.value });
-  setEditingValueB = (e) => this.setState({ editingValueB: e.target.value });
-  setEditingValueC = (e) => this.setState({ editingValueC: e.target.value });
-  saveEdit = () => {
-    const { editingKind, editingId, editingValueA, editingValueB, editingValueC } = this.state;
-    if (!editingKind) return;
-    const rename = (list) => list.map((it) => (it.id === editingId ? Object.assign({}, it, { name: editingValueA.trim() || it.name }) : it));
-    if (editingKind === "category") this.setState({ categories: rename(this.state.categories) }, this.persist);
-    else if (editingKind === "type") this.setState({ types: rename(this.state.types) }, this.persist);
-    else if (editingKind === "tag") this.setState({ tags: rename(this.state.tags) }, this.persist);
-    else if (editingKind === "technology") this.setState({ technologies: rename(this.state.technologies) }, this.persist);
-    else if (editingKind === "admin") this.setState({ admins: this.state.admins.map((a) => (a.id === editingId ? Object.assign({}, a, { name: editingValueA.trim() || a.name, email: editingValueB.trim() || a.email }) : a)) }, this.persist);
-    else if (editingKind === "client") this.setState({ clients: rename(this.state.clients) }, this.persist);
-    else if (editingKind === "service") this.setState({ services: this.state.services.map((sv) => (sv.id === editingId ? Object.assign({}, sv, { title: editingValueA.trim() || sv.title, description: editingValueB.trim() || sv.description }) : sv)) }, this.persist);
-    else if (editingKind === "testimonial") this.setState({ testimonials: this.state.testimonials.map((t) => (t.id === editingId ? Object.assign({}, t, { quote: editingValueA.trim() || t.quote, author: editingValueB.trim() || t.author, role: editingValueC.trim() }) : t)) }, this.persist);
-    this.showToast("Saved");
-    this.cancelEdit();
-  };
-
-  askDelete = (kind, id) => this.setState({ confirmDelete: { kind, id } });
-  cancelDelete = () => this.setState({ confirmDelete: null });
-  confirmDeleteNow = () => {
-    const cd = this.state.confirmDelete; if (!cd) return;
-    const { kind, id } = cd;
-    if (kind === "category") this.setState({ categories: this.state.categories.filter((c) => c.id !== id) }, this.persist);
-    else if (kind === "type") this.setState({ types: this.state.types.filter((c) => c.id !== id) }, this.persist);
-    else if (kind === "tag") this.setState({ tags: this.state.tags.filter((c) => c.id !== id) }, this.persist);
-    else if (kind === "technology") this.setState({ technologies: this.state.technologies.filter((c) => c.id !== id) }, this.persist);
-    else if (kind === "admin") this.setState({ admins: this.state.admins.filter((c) => c.id !== id) }, this.persist);
-    else if (kind === "client") this.setState({ clients: this.state.clients.filter((c) => c.id !== id) }, this.persist);
-    else if (kind === "service") this.setState({ services: this.state.services.filter((c) => c.id !== id) }, this.persist);
-    else if (kind === "testimonial") this.setState({ testimonials: this.state.testimonials.filter((c) => c.id !== id) }, this.persist);
-    else if (kind === "project") this.setState({ projects: this.state.projects.filter((c) => c.id !== id) }, this.persist);
-    this.showToast("Deleted");
-    this.setState({ confirmDelete: null });
-  };
-
-  setSettingsField = (field, value) => this.setState((s) => ({ settings: Object.assign({}, s.settings, { [field]: value }) }), this.persist);
-  setSiteName = (e) => this.setSettingsField("siteName", e.target.value);
-  setTagline = (e) => this.setSettingsField("tagline", e.target.value);
-  setContactEmail = (e) => this.setSettingsField("contactEmail", e.target.value);
-  setContactPhone = (e) => this.setSettingsField("contactPhone", e.target.value);
-  setAddress = (e) => this.setSettingsField("address", e.target.value);
-  setTwitter = (e) => this.setSettingsField("twitter", e.target.value);
-  setLinkedin = (e) => this.setSettingsField("linkedin", e.target.value);
-  setInstagram = (e) => this.setSettingsField("instagram", e.target.value);
 
   emptyEditorForm = (mediaBaseId) => ({
     mediaBaseId, featuredSlotId: mediaBaseId + "-featured", title: "", client: "", category: (this.state.categories[0] || {}).name || "", type: (this.state.types[0] || {}).name || "",
@@ -1727,23 +1355,24 @@ class Component extends DCLogic {
 
   renderVals() {
     const s = this.state;
-    const isMobileNav = s.viewportWidth < 900;
-    const showPublicChrome = s.route === "landing" || s.route === "portfolios" || s.route === "detail";
     const withInactive = (arr) => arr.map((p) => Object.assign({}, p, { inactive: !p.active }));
-
     const withImage = (p) => Object.assign({}, p, { featuredSlotId: p.featuredSlotId || (p.mediaBaseId + "-featured"), gallery: p.gallery || [], videos: p.videos || [], files: p.files || [], tags: p.tags || [], technologies: p.technologies || [], metrics: p.metrics || [] });
-
-    const featuredProjects = s.projects.filter((p) => p.highlight && p.status === "Published").slice(0, 4).map((p) => withImage(Object.assign({}, p, { onOpen: () => this.openProject(p.id) })));
 
     const q = s.search.trim().toLowerCase();
     const publishedProjects = s.projects.filter((p) => p.status === "Published");
-    const filteredProjects = publishedProjects.filter((p) => {
+    const allFilteredProjects = publishedProjects.filter((p) => {
       const matchQ = !q || p.title.toLowerCase().includes(q) || p.client.toLowerCase().includes(q) || p.tags.join(" ").toLowerCase().includes(q);
       const matchCat = s.filterCategory === "All" || p.category === s.filterCategory;
       const matchType = s.filterType === "All" || p.type === s.filterType;
-      const matchView = s.portfolioViewTab === "all" || p.highlight;
-      return matchQ && matchCat && matchType && matchView;
-    }).map((p) => withImage(Object.assign({}, p, { onOpen: () => this.openProject(p.id) })));
+      return matchQ && matchCat && matchType;
+    });
+    const visibleCount = Math.min(s.visibleCount, allFilteredProjects.length);
+    const visibleProjects = allFilteredProjects.slice(0, visibleCount).map((p, idx) => Object.assign(withImage(p), {
+      onOpen: () => this.openProject(p.id),
+      isFeatured: !!p.highlight,
+      gridSpan: p.highlight ? "span 2" : "span 1",
+      delayMs: Math.min((idx % 6) * 60, 300),
+    }));
 
     const categoryPills = withInactive([{ name: "All", active: s.filterCategory === "All", onSelect: () => this.setFilterCategory("All") }].concat(
       s.categories.map((c) => ({ name: c.name, active: s.filterCategory === c.name, onSelect: () => this.setFilterCategory(c.name) }))
@@ -1764,9 +1393,15 @@ class Component extends DCLogic {
         nextProject = Object.assign({}, nx, { onOpen: () => this.openProject(nx.id) });
       }
     }
-    const detailGalleryView = currentProject ? currentProject.gallery.map((g) => ({ id: g.id, slotId: g.slotId || (currentProject.mediaBaseId + "-gallery-" + g.id) })) : [];
+    const allImageSlots = currentProject ? [currentProject.featuredSlotId].concat(currentProject.gallery.map((g) => g.slotId || (currentProject.mediaBaseId + "-gallery-" + g.id))) : [];
+    const detailGalleryView = currentProject ? currentProject.gallery.map((g, gi) => ({ id: g.id, slotId: g.slotId || (currentProject.mediaBaseId + "-gallery-" + g.id), onOpen: () => this.openLightbox(allImageSlots, gi + 1), tall: gi % 3 === 0 ? "span 2" : "span 1" })) : [];
     const detailVideosView = currentProject ? currentProject.videos.filter((v) => v.url) : [];
     const detailFilesView = currentProject ? currentProject.files.filter((f) => f.url) : [];
+    const openHeroLightbox = () => this.openLightbox(allImageSlots, 0);
+    const lb = s.lightbox;
+    const lightboxSlotId = lb ? lb.images[lb.index] : null;
+    const lightboxCounter = lb ? (lb.index + 1) + " / " + lb.images.length : "";
+    const lightboxHasMultiple = !!(lb && lb.images.length > 1);
 
     const totalProjects = s.projects.length;
     const publishedCount = s.projects.filter((p) => p.status === "Published").length;
@@ -1799,28 +1434,6 @@ class Component extends DCLogic {
     const tagsView = withListMeta(s.tags, "tag", (t) => s.projects.filter((p) => p.tags.includes(t.name)).length);
     const techView = withListMeta(s.technologies, "technology", (t) => s.projects.filter((p) => p.technologies.includes(t.name)).length);
     const adminsView = withListMeta(s.admins, "admin", null);
-    const clientsView = withListMeta(s.clients, "client", null);
-    const servicesView = s.services.map((sv, idx) => ({
-      id: sv.id, title: sv.title, description: sv.description, orderLabel: String(idx + 1).padStart(2, "0"),
-      isEditing: s.editingKind === "service" && s.editingId === sv.id,
-      notEditing: !(s.editingKind === "service" && s.editingId === sv.id),
-      confirming: !!(s.confirmDelete && s.confirmDelete.kind === "service" && s.confirmDelete.id === sv.id),
-      showActions: !(s.editingKind === "service" && s.editingId === sv.id) && !(s.confirmDelete && s.confirmDelete.kind === "service" && s.confirmDelete.id === sv.id),
-      onEditStart: () => this.startEdit("service", { id: sv.id, name: sv.title, email: sv.description }),
-      onDeleteAsk: () => this.askDelete("service", sv.id),
-    }));
-    const testimonialsView = s.testimonials.map((t) => ({
-      id: t.id, quote: t.quote, author: t.author, role: t.role,
-      isEditing: s.editingKind === "testimonial" && s.editingId === t.id,
-      notEditing: !(s.editingKind === "testimonial" && s.editingId === t.id),
-      confirming: !!(s.confirmDelete && s.confirmDelete.kind === "testimonial" && s.confirmDelete.id === t.id),
-      showActions: !(s.editingKind === "testimonial" && s.editingId === t.id) && !(s.confirmDelete && s.confirmDelete.kind === "testimonial" && s.confirmDelete.id === t.id),
-      onEditStart: () => this.startEdit("testimonial", { id: t.id, name: t.quote, email: t.author, role: t.role }),
-      onDeleteAsk: () => this.askDelete("testimonial", t.id),
-    }));
-    const publicClients = s.clients.map((c) => ({ id: c.id, name: c.name }));
-    const publicServices = s.services.map((sv, idx) => ({ id: sv.id, title: sv.title, description: sv.description, orderLabel: String(idx + 1).padStart(2, "0") }));
-    const publicTestimonials = s.testimonials.map((t) => ({ id: t.id, quote: t.quote, author: t.author, role: t.role }));
 
     let editorCategoryChips = [], editorTypeChips = [], editorStatusChips = [], editorTagChips = [], editorTechChips = [];
     let editorHeading = "", editorFeaturedSlotId = "", editorGalleryView = [], editorVideosView = [], editorFilesView = [];
@@ -1840,25 +1453,21 @@ class Component extends DCLogic {
       editorFilesView = f.files.map((fl) => ({ id: fl.id, url: fl.url, name: fl.name, onUrlChange: (e) => this.setFileField(fl.id, "url", e.target.value), onNameChange: (e) => this.setFileField(fl.id, "name", e.target.value), onRemove: () => this.removeFile(fl.id) }));
     }
 
-    const tabTitles = { overview: "Overview", portfolios: "Portfolios", categories: "Categories", types: "Types", tags: "Tags", technologies: "Technologies", admins: "Admins", settings: "Settings", media: "Media", clients: "Clients", services: "Services", testimonials: "Testimonials" };
+    const tabTitles = { overview: "Overview", portfolios: "Portfolios", categories: "Categories", types: "Types", tags: "Tags", technologies: "Technologies", admins: "Admins", settings: "Settings", media: "Media" };
 
     return {
-      showPublicChrome, isMobileNav, mobileNavOpen: s.mobileNavOpen, toggleMobileNav: this.toggleMobileNav, goTo: this.goTo,
-      goToLanding: this.goToLanding, goToPortfolios: this.goToPortfolios, goToAdminLogin: this.goToAdminLogin,
-      desktopNavDisplay: isMobileNav ? "none" : "flex",
-      isLanding: s.route === "landing", isPortfolios: s.route === "portfolios", isDetail: s.route === "detail",
+      showHeader: s.route === "home" || s.route === "detail",
+      isHome: s.route === "home", isDetail: s.route === "detail",
       isAdminLogin: s.route === "admin-login", isAdmin: s.route === "admin", isAdminEditor: s.route === "admin-editor",
+      goToHome: this.goToHome, goToAdminLogin: this.goToAdminLogin,
 
-      settings: s.settings, hasContactPhone: !!s.settings.contactPhone, hasAddress: !!s.settings.address,
-      setSiteName: this.setSiteName, setTagline: this.setTagline, setContactEmail: this.setContactEmail, setContactPhone: this.setContactPhone,
-      setAddress: this.setAddress, setTwitter: this.setTwitter, setLinkedin: this.setLinkedin, setInstagram: this.setInstagram,
+      settings: s.settings,
+      setSiteName: this.setSiteName, setTagline: this.setTagline, setExternalUrl: this.setExternalUrl, setExternalLabel: this.setExternalLabel,
 
-      featuredProjects, filteredProjects, categoryPills, typePills, search: s.search, setSearch: this.setSearch,
-      hasResults: filteredProjects.length > 0, noResults: filteredProjects.length === 0,
-      viewTabFeatured: s.portfolioViewTab === "featured", viewTabFeaturedOff: s.portfolioViewTab !== "featured",
-      viewTabAll: s.portfolioViewTab === "all", viewTabAllOff: s.portfolioViewTab !== "all",
-      setPortfolioViewFeatured: this.setPortfolioViewFeatured, setPortfolioViewAll: this.setPortfolioViewAll,
-      publicClients, publicServices, publicTestimonials,
+      resultsCountLabel: allFilteredProjects.length + (allFilteredProjects.length === 1 ? " project" : " projects"),
+      visibleProjects, categoryPills, typePills, search: s.search, setSearch: this.setSearch,
+      hasResults: allFilteredProjects.length > 0, noResults: allFilteredProjects.length === 0,
+      hasMore: visibleCount < allFilteredProjects.length, setSentinelRef: this.setSentinelRef,
 
       currentProject, prevProject, nextProject,
       hasDevUrl: !!(currentProject && currentProject.devUrl), hasClientUrl: !!(currentProject && currentProject.clientUrl), hasRepoUrl: !!(currentProject && currentProject.repoUrl),
@@ -1866,6 +1475,9 @@ class Component extends DCLogic {
       hasGallery: detailGalleryView.length > 0, detailGalleryView,
       hasVideos: detailVideosView.length > 0, detailVideosView,
       hasFiles: detailFilesView.length > 0, detailFilesView,
+      openHeroLightbox,
+      hasLightbox: !!lb, lightboxSlotId, lightboxCounter, lightboxHasMultiple,
+      closeLightbox: this.closeLightbox, lightboxPrev: this.lightboxPrev, lightboxNext: this.lightboxNext,
       hasStatusNote: !!(currentProject && currentProject.status !== "Published"),
       statusNoteText: currentProject && currentProject.status === "Scheduled" ? ("This project is scheduled to publish on " + currentProject.scheduledDate + ".") : "This project is currently a draft and not publicly listed.",
 
@@ -1875,10 +1487,9 @@ class Component extends DCLogic {
       adminPageTitle: tabTitles[s.adminTab] || "Overview", setAdminTab: this.setAdminTab, logoutAdmin: this.logoutAdmin,
       setTabOverview: this.setTabOverview, setTabPortfolios: this.setTabPortfolios, setTabCategories: this.setTabCategories,
       setTabTypes: this.setTabTypes, setTabTags: this.setTabTags, setTabTech: this.setTabTech, setTabAdmins: this.setTabAdmins, setTabSettings: this.setTabSettings, setTabMedia: this.setTabMedia,
-      setTabClients: this.setTabClients, setTabServices: this.setTabServices, setTabTestimonials: this.setTabTestimonials,
       tabOverview: s.adminTab === "overview", tabPortfolios: s.adminTab === "portfolios", tabCategories: s.adminTab === "categories",
       tabTypes: s.adminTab === "types", tabTags: s.adminTab === "tags", tabTech: s.adminTab === "technologies", tabAdmins: s.adminTab === "admins", tabSettings: s.adminTab === "settings",
-      tabMedia: s.adminTab === "media", tabClients: s.adminTab === "clients", tabServices: s.adminTab === "services", tabTestimonials: s.adminTab === "testimonials",
+      tabMedia: s.adminTab === "media",
       ovDisplayOn: s.adminTab === "overview" ? "block" : "none", ovDisplayOff: s.adminTab === "overview" ? "none" : "block",
       pfDisplayOn: s.adminTab === "portfolios" ? "block" : "none", pfDisplayOff: s.adminTab === "portfolios" ? "none" : "block",
       catDisplayOn: s.adminTab === "categories" ? "block" : "none", catDisplayOff: s.adminTab === "categories" ? "none" : "block",
@@ -1888,26 +1499,6 @@ class Component extends DCLogic {
       adminDisplayOn: s.adminTab === "admins" ? "block" : "none", adminDisplayOff: s.adminTab === "admins" ? "none" : "block",
       setDisplayOn: s.adminTab === "settings" ? "block" : "none", setDisplayOff: s.adminTab === "settings" ? "none" : "block",
       mediaDisplayOn: s.adminTab === "media" ? "block" : "none", mediaDisplayOff: s.adminTab === "media" ? "none" : "block",
-      clientsDisplayOn: s.adminTab === "clients" ? "block" : "none", clientsDisplayOff: s.adminTab === "clients" ? "none" : "block",
-      servicesDisplayOn: s.adminTab === "services" ? "block" : "none", servicesDisplayOff: s.adminTab === "services" ? "none" : "block",
-      testimonialsDisplayOn: s.adminTab === "testimonials" ? "block" : "none", testimonialsDisplayOff: s.adminTab === "testimonials" ? "none" : "block",
-      clientsView, servicesView, testimonialsView,
-      newClientName: s.newClientName, setNewClientName: this.setNewClientName, addClient: this.addClient,
-      newServiceTitle: s.newServiceTitle, setNewServiceTitle: this.setNewServiceTitle,
-      newServiceDescription: s.newServiceDescription, setNewServiceDescription: this.setNewServiceDescription, addService: this.addService,
-      newTestimonialQuote: s.newTestimonialQuote, setNewTestimonialQuote: this.setNewTestimonialQuote,
-      newTestimonialAuthor: s.newTestimonialAuthor, setNewTestimonialAuthor: this.setNewTestimonialAuthor,
-      newTestimonialRole: s.newTestimonialRole, setNewTestimonialRole: this.setNewTestimonialRole, addTestimonial: this.addTestimonial,
-      editingValueC: s.editingValueC, setEditingValueC: this.setEditingValueC,
-      mediaItemsView: s.mediaItems.map((m) => ({ id: m.id, slotId: m.slotId, name: m.name, onRemove: () => this.removeMediaItem(m.id), onNameChange: (e) => this.renameMediaItem(m.id, e.target.value) })),
-      addMediaItem: this.addMediaItem,
-      hasMediaPicker: !!s.mediaPicker, mediaPickerIsFeatured: s.mediaPicker === "featured", mediaPickerIsGallery: s.mediaPicker === "gallery",
-      hasMediaItems: s.mediaItems.length > 0, noMediaItems: s.mediaItems.length === 0,
-      closeMediaPicker: this.closeMediaPicker,
-      mediaPickerItemsFeatured: s.mediaItems.map((m) => ({ id: m.id, slotId: m.slotId, name: m.name, onSelect: () => this.pickFeaturedMedia(m) })),
-      mediaPickerItemsGallery: s.mediaItems.map((m) => ({ id: m.id, slotId: m.slotId, name: m.name, onSelect: () => this.pickGalleryMedia(m) })),
-      openFeaturedPicker: () => this.openMediaPicker("featured"), openGalleryPicker: () => this.openMediaPicker("gallery"),
-      clearFeaturedMedia: this.clearFeaturedMedia,
 
       totalProjects, publishedCount, totalCategories, totalAdmins, categoryBarsView, recentProjects,
       adminProjectsView, goToEditorAdd: this.goToEditorAdd,
@@ -1922,7 +1513,16 @@ class Component extends DCLogic {
       editingValueA: s.editingValueA, editingValueB: s.editingValueB, setEditingValueA: this.setEditingValueA, setEditingValueB: this.setEditingValueB,
       saveEdit: this.saveEdit, cancelEdit: this.cancelEdit,
 
-      confirmDeleteNow: this.confirmDeleteNow, cancelDelete: this.cancelDelete,
+      confirmDeleteNow: this.confirmDeleteNow, cancelDelete: this.cancelDelete, stopPropagation: this.stopPropagation,
+
+      mediaItemsView: s.mediaItems.map((m) => ({ id: m.id, slotId: m.slotId, name: m.name, onRemove: () => this.removeMediaItem(m.id), onNameChange: (e) => this.renameMediaItem(m.id, e.target.value) })),
+      addMediaItem: this.addMediaItem,
+      hasMediaPicker: !!s.mediaPicker, mediaPickerIsFeatured: s.mediaPicker === "featured", mediaPickerIsGallery: s.mediaPicker === "gallery",
+      hasMediaItems: s.mediaItems.length > 0, noMediaItems: s.mediaItems.length === 0,
+      closeMediaPicker: this.closeMediaPicker,
+      mediaPickerItemsFeatured: s.mediaItems.map((m) => ({ id: m.id, slotId: m.slotId, name: m.name, onSelect: () => this.pickFeaturedMedia(m) })),
+      mediaPickerItemsGallery: s.mediaItems.map((m) => ({ id: m.id, slotId: m.slotId, name: m.name, onSelect: () => this.pickGalleryMedia(m) })),
+      openFeaturedPicker: () => this.openMediaPicker("featured"), openGalleryPicker: () => this.openMediaPicker("gallery"),
 
       editorForm: s.editorForm, editorHeading, cancelEditor: this.cancelEditor, saveProjectFromEditor: this.saveProjectFromEditor,
       editorCategoryChips, editorTypeChips, editorStatusChips, editorTagChips, editorTechChips, isScheduled,
